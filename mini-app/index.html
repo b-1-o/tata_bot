@@ -333,7 +333,7 @@
 
     // Add the confirmed course prices here. They are intentionally not invented.
     const COURSE_PRICE_RUB = "Уточняется";
-    const COURSE_PRICE_USD = "To be set";
+    const COURSE_PRICE_USD = "Уточняется";
 
     const telegram = window.Telegram && window.Telegram.WebApp;
     if (telegram) {
@@ -383,7 +383,7 @@
       button.addEventListener("click", () => openPayment(button.dataset.payment));
     });
 
-    const paymentLinksReady = !PAYMENT_URL_RUB.includes("ЗАМЕНИ_НА_ССЫЛКУ") || !PAYMENT_URL_USD.includes("ЗАМЕНИ_НА_ССЫЛКУ");
+    const paymentLinksReady = !PAYMENT_URL_RUB.includes("ЗАМЕНИ_НА_ССЫЛКУ") && !PAYMENT_URL_USD.includes("ЗАМЕНИ_НА_ССЫЛКУ");
     if (paymentLinksReady) {
       document.getElementById("payment-note").hidden = true;
     }
