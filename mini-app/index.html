@@ -1805,7 +1805,7 @@
     const LANGUAGE_STORAGE_KEY = "tataNailsLanguage";
 
     function readSavedLanguage() {
-      const cookie = document.cookie.match(/(?:^|;\\s*)tataNailsLanguage=(ru|en)(?:;|$)/);
+      const cookie = document.cookie.match(/(?:^|;\s*)tataNailsLanguage=(ru|en)(?:;|$)/);
       if (cookie) return cookie[1];
 
       try {
