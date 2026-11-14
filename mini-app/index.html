@@ -965,8 +965,76 @@
       .gallery-toolbar { margin-top: 26px; }
       .gallery-slide { flex-basis: 300px; }
     }
+  
+    /* Show almost the full portrait main image instead of cropping it into a short banner. */
+    .hero-image {
+      width: min(100%, 330px);
+      height: auto;
+      aspect-ratio: 1284 / 2300;
+      margin: 31px auto 0;
+      border-radius: 42% 42% 7px 7px;
+      background: #091b1a;
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 50%;
+    }
+    @media (max-width: 370px) {
+      .hero-image {
+        width: min(100%, 300px);
+        height: auto;
+        margin: 27px auto 0;
+      }
+      .online-tag { display: none; }
+    }
+    @media (min-width: 520px) {
+      .hero-image {
+        width: min(100%, 330px);
+        height: auto;
+        margin: 32px auto 0;
+      }
+    }
+
+    /* Compact language selector, integrated into the existing header. */
+    .topbar-tools { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
+    .language-switch {
+      display: inline-flex; align-items: center; gap: 2px;
+      padding: 3px; border: 1px solid rgba(202,174,112,.46);
+      border-radius: 99px;
+      background: linear-gradient(130deg, rgba(17,43,40,.96), rgba(8,26,25,.98));
+    }
+    .language-option {
+      min-width: 27px; height: 25px; padding: 0 6px;
+      border: 0; border-radius: 99px; background: transparent;
+      color: #aebdb2; font: 700 8px/1 var(--sans);
+      letter-spacing: .08em; cursor: pointer;
+    }
+    .language-option.is-active {
+      color: #102522;
+      background: linear-gradient(120deg, #b99b60, #e1cc96);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+    }
+    .language-option:focus-visible { outline-color: #e0ca93; outline-offset: 2px; }
+
+    /* Inline video slide uses native playback controls and loads only its metadata initially. */
+    .gallery-video-frame {
+      width: 100%; aspect-ratio: .59; overflow: hidden;
+      border: 1px solid rgba(211,185,124,.56);
+      border-radius: 5px 5px 25px 5px;
+      background: #081b19;
+      box-shadow: 0 16px 34px rgba(0,0,0,.28);
+    }
+    .gallery-video {
+      display: block; width: 100%; height: 100%;
+      object-fit: contain; background: #081b19;
+    }
+    .gallery-video-slide figcaption span:first-child { color: #d5bd85; }
+
+    /* Telegram's official 7.7+ API disables drag-to-collapse while preserving the header close control. */
   </style>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js?65"></script>
 </head>
 <body>
   <main class="page">
@@ -980,7 +1048,13 @@
         </span>
         <span class="brand-name"><strong>TATA</strong><span data-i18n="brandTag">NAIL EDUCATION</span></span>
       </a>
-      <span class="online-tag" data-i18n="onlineTag">ONLINE COURSE</span>
+      <div class="topbar-tools">
+        <span class="online-tag" data-i18n="onlineTag">ONLINE COURSE</span>
+        <div class="language-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:languageSelector">
+          <button class="language-option" type="button" data-language="ru" aria-pressed="true">RU</button>
+          <button class="language-option" type="button" data-language="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
     </header>
 
     <section class="hero" id="top">
@@ -1085,7 +1159,7 @@
       <p class="section-intro" data-i18n="galleryIntro">Примеры моделирования и дизайна ногтей. Листайте галерею, чтобы рассмотреть каждую работу.</p>
 
       <div class="gallery-toolbar">
-        <span class="gallery-counter" id="gallery-counter" aria-live="polite">01 / 10</span>
+        <span class="gallery-counter" id="gallery-counter" aria-live="polite">01 / 11</span>
         <div class="gallery-arrows">
           <button class="gallery-arrow" id="gallery-prev" type="button" aria-label="Предыдущее фото">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
@@ -1156,6 +1230,21 @@
             <img src="./nail10.jpg" alt="Пример работы Tata Nails 10" width="1440" height="2560" loading="lazy" decoding="async">
           </button>
           <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>10</span></figcaption>
+        </figure>
+        <figure class="gallery-slide gallery-video-slide">
+          <div class="gallery-video-frame">
+            <video
+              class="gallery-video"
+              src="./IMG_9320.mp4"
+              poster="./mainnail.jpg"
+              controls
+              playsinline
+              preload="metadata"
+              aria-label="Видео Tata Nails"
+              data-i18n-attr="aria-label:galleryVideoLabel">
+            </video>
+          </div>
+          <figcaption><span data-i18n="galleryVideo">ВИДЕО</span> <span>11</span></figcaption>
         </figure>
       </div>
       <div class="gallery-dots" id="gallery-dots" aria-label="Выбор фотографии"></div>
@@ -1236,6 +1325,9 @@
     if (telegram) {
       telegram.ready();
       telegram.expand();
+      if (typeof telegram.disableVerticalSwipes === "function") {
+        telegram.disableVerticalSwipes();
+      }
       try {
         telegram.setHeaderColor("#0f2624");
         telegram.setBackgroundColor("#0f2624");
@@ -1251,6 +1343,9 @@
         ogTitle: "Tata Nails — курс по маникюру",
         ogDescription: "Верхние формы от А до Я, моделирование и дизайн ногтей.",
         brandTag: "ШКОЛА МАНИКЮРА",
+        languageSelector: "Выбор языка",
+        galleryVideo: "ВИДЕО",
+        galleryVideoLabel: "Видео-пример работы Tata Nails",
         onlineTag: "ОНЛАЙН-КУРС",
         eyebrow: "TATA NAILS · ОБУЧЕНИЕ",
         heroTitleLead: "Искусство маникюра —",
@@ -1320,6 +1415,9 @@
         ogTitle: "Tata Nails — Nail Art Course",
         ogDescription: "Dual forms from A to Z, nail modeling and design.",
         brandTag: "NAIL EDUCATION",
+        languageSelector: "Choose language",
+        galleryVideo: "VIDEO",
+        galleryVideoLabel: "Tata Nails work video",
         onlineTag: "ONLINE COURSE",
         eyebrow: "TATA NAILS · EDUCATION",
         heroTitleLead: "The art of nail design —",
@@ -1385,33 +1483,120 @@
       }
     };
 
-    const telegramLanguage = telegram?.initDataUnsafe?.user?.language_code;
-    const browserLanguage = navigator.language || "ru";
-    const detectedLanguage = String(telegramLanguage || browserLanguage).toLowerCase().split(/[-_]/)[0];
-    const currentLanguage = detectedLanguage === "en" ? "en" : "ru";
-    const copy = translations[currentLanguage];
+    function readTelegramUser() {
+      const directUser = telegram?.initDataUnsafe?.user;
+      if (directUser?.language_code) return directUser;
 
-    document.documentElement.lang = currentLanguage;
-    document.title = copy.title;
-    const descriptionMeta = document.querySelector('meta[name="description"]');
-    const ogTitleMeta = document.querySelector('meta[property="og:title"]');
-    const ogDescriptionMeta = document.querySelector('meta[property="og:description"]');
-    if (descriptionMeta) descriptionMeta.content = copy.description;
-    if (ogTitleMeta) ogTitleMeta.content = copy.ogTitle;
-    if (ogDescriptionMeta) ogDescriptionMeta.content = copy.ogDescription;
+      const rawInitData = telegram?.initData ||
+        new URLSearchParams(window.location.search).get("tgWebAppData") || "";
+      if (rawInitData) {
+        try {
+          const rawUser = new URLSearchParams(rawInitData).get("user");
+          if (rawUser) return JSON.parse(rawUser);
+        } catch (error) {
+          console.warn("[Tata Nails] Could not parse Telegram initData user:", error);
+        }
+      }
+      return directUser || null;
+    }
 
-    document.querySelectorAll("[data-i18n]").forEach((element) => {
-      const key = element.dataset.i18n;
-      if (copy[key] !== undefined) element.textContent = copy[key];
-    });
+    const telegramUser = readTelegramUser();
+    const telegramLanguage = telegramUser?.language_code;
+    const languageParam = new URLSearchParams(window.location.search).get("lang");
+    const browserLanguages = Array.isArray(navigator.languages) && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || "ru"];
 
-    document.querySelectorAll("[data-i18n-attr]").forEach((element) => {
-      element.dataset.i18nAttr.split("|").forEach((entry) => {
-        const [attribute, key] = entry.split(":");
-        if (attribute && key && copy[key] !== undefined) {
-          element.setAttribute(attribute, copy[key]);
+    function detectLanguage() {
+      if (languageParam === "en" || languageParam === "ru") return languageParam;
+
+      // A Telegram language code has priority. Unsupported Telegram languages fall back to Russian.
+      if (telegramLanguage) {
+        return String(telegramLanguage).toLowerCase().startsWith("en") ? "en" : "ru";
+      }
+
+      // Outside Telegram, use the browser's preferred language.
+      return browserLanguages.some((language) =>
+        String(language).toLowerCase().startsWith("en")
+      ) ? "en" : "ru";
+    }
+
+    let currentLanguage = detectLanguage();
+    let copy = translations[currentLanguage];
+
+    function applyLanguage(language) {
+      currentLanguage = language === "en" ? "en" : "ru";
+      copy = translations[currentLanguage];
+      document.documentElement.lang = currentLanguage;
+      document.title = copy.title;
+
+      const descriptionMeta = document.querySelector('meta[name="description"]');
+      const ogTitleMeta = document.querySelector('meta[property="og:title"]');
+      const ogDescriptionMeta = document.querySelector('meta[property="og:description"]');
+      if (descriptionMeta) descriptionMeta.content = copy.description;
+      if (ogTitleMeta) ogTitleMeta.content = copy.ogTitle;
+      if (ogDescriptionMeta) ogDescriptionMeta.content = copy.ogDescription;
+
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const key = element.dataset.i18n;
+        if (copy[key] !== undefined) element.textContent = copy[key];
+      });
+
+      document.querySelectorAll("[data-i18n-attr]").forEach((element) => {
+        element.dataset.i18nAttr.split("|").forEach((entry) => {
+          const [attribute, key] = entry.split(":");
+          if (attribute && key && copy[key] !== undefined) {
+            element.setAttribute(attribute, copy[key]);
+          }
+        });
+      });
+
+      document.querySelectorAll(".language-option").forEach((button) => {
+        const active = button.dataset.language === currentLanguage;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+
+      const previousButton = document.getElementById("gallery-prev");
+      const nextButton = document.getElementById("gallery-next");
+      const track = document.getElementById("gallery-track");
+      const dots = document.getElementById("gallery-dots");
+      const lightbox = document.getElementById("gallery-lightbox");
+      const lightboxClose = document.getElementById("lightbox-close");
+
+      if (previousButton) previousButton.setAttribute("aria-label", copy.galleryPrevious);
+      if (nextButton) nextButton.setAttribute("aria-label", copy.galleryNext);
+      if (track) track.setAttribute("aria-label", copy.galleryTrack);
+      if (dots) {
+        dots.setAttribute("aria-label", copy.galleryChoose);
+        dots.querySelectorAll(".gallery-dot").forEach((dot, index) => {
+          dot.setAttribute("aria-label", copy.galleryDot + " " + (index + 1));
+        });
+      }
+      if (lightbox) lightbox.setAttribute("aria-label", copy.galleryLightbox);
+      if (lightboxClose) lightboxClose.setAttribute("aria-label", copy.lightboxClose);
+
+      document.querySelectorAll(".gallery-slide").forEach((slide, index) => {
+        const image = slide.querySelector("img");
+        if (image) {
+          image.alt = currentLanguage === "en"
+            ? "Tata Nails work example " + String(index + 1).padStart(2, "0")
+            : "Пример работы Tata Nails " + String(index + 1).padStart(2, "0");
+        }
+        const imageButton = slide.querySelector("[data-gallery-index]");
+        if (imageButton) {
+          imageButton.setAttribute("aria-label", copy.galleryOpenPhoto + " " + (index + 1));
         }
       });
+
+      const video = document.querySelector(".gallery-video");
+      if (video) video.setAttribute("aria-label", copy.galleryVideoLabel);
+    }
+
+    applyLanguage(currentLanguage);
+
+    document.querySelectorAll(".language-option").forEach((button) => {
+      button.addEventListener("click", () => applyLanguage(button.dataset.language));
     });
 
     const PAYMENT_URL_RUB = "https://telegram.me/tribute/app?startapp=ЗАМЕНИ_НА_ССЫЛКУ_RUB";
@@ -1468,12 +1653,16 @@
 
     gallerySlides.forEach((slide, index) => {
       const image = slide.querySelector("img");
-      const imageNumber = String(index + 1).padStart(2, "0");
-      image.alt = currentLanguage === "en"
-        ? "Tata Nails work example " + imageNumber
-        : "Пример работы Tata Nails " + imageNumber;
+      if (image) {
+        const imageNumber = String(index + 1).padStart(2, "0");
+        image.alt = currentLanguage === "en"
+          ? "Tata Nails work example " + imageNumber
+          : "Пример работы Tata Nails " + imageNumber;
+      }
       const imageButton = slide.querySelector("[data-gallery-index]");
-      imageButton.setAttribute("aria-label", copy.galleryOpenPhoto + " " + (index + 1));
+      if (imageButton) {
+        imageButton.setAttribute("aria-label", copy.galleryOpenPhoto + " " + (index + 1));
+      }
     });
 
     const dotButtons = gallerySlides.map((slide, index) => {
@@ -1487,7 +1676,14 @@
     });
 
     function updateGalleryState(index) {
-      activeGalleryIndex = Math.max(0, Math.min(gallerySlides.length - 1, index));
+      const nextIndex = Math.max(0, Math.min(gallerySlides.length - 1, index));
+      gallerySlides.forEach((slide, slideIndex) => {
+        if (slideIndex !== nextIndex) {
+          const video = slide.querySelector("video");
+          if (video && !video.paused) video.pause();
+        }
+      });
+      activeGalleryIndex = nextIndex;
       galleryCounter.textContent =
         String(activeGalleryIndex + 1).padStart(2, "0") +
         " / " + String(gallerySlides.length).padStart(2, "0");
