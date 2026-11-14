@@ -7,13 +7,13 @@ Telegram-бот для курса Tata Nails. Команда `/start` отпра
 ## Что уже подготовлено
 
 - Код webhook: `api/telegram.js`.
-- Фотография приветствия: `api/welcome-image.js` (подаётся как JPEG через Vercel).
+- Файл приветственной карточки: `welcome-card.jpg` в корне проекта `bot/`.
 - Автоматическая настройка Telegram: `api/setup.js`.
 - Скрипт альтернативной регистрации webhook: `scripts/set-webhook.cjs`.
 - Отдельный проект Vercel: `tata-nails-bot`.
 - Root Directory проекта: `bot`.
 - Адрес webhook: https://tata-nails-bot.vercel.app/api/telegram
-- Адрес изображения: https://tata-nails-bot.vercel.app/api/welcome-image
+- Адрес изображения после добавления файла: https://tata-nails-bot.vercel.app/welcome-card.jpg
 - Ссылка Mini App уже добавлена в Vercel как `MINI_APP_URL`: https://tata-course-miniapp.vercel.app/
 
 Mini App продолжает работать отдельно в проекте `tata-course-miniapp`.
@@ -80,7 +80,7 @@ unset WEBHOOK_SECRET
 
 1. Открой нового бота TataNailsBot по его username.
 2. Нажми **Start**.
-3. Бот отправит фотографию с описанием:
+3. Бот отправит файл `welcome-card.jpg` с исходным текстом приветствия и кнопкой:
 
    **TATA NAILS**
 
@@ -102,7 +102,7 @@ unset WEBHOOK_SECRET
 - **Бот молчит:** проверь, что `BOT_TOKEN` относится именно к новому боту, а `WEBHOOK_SECRET` добавлен в Production, после этого сделай Redeploy.
 - **Setup возвращает 401:** секрет в заголовке должен точно совпадать со значением `WEBHOOK_SECRET` в Vercel.
 - **Setup возвращает 502:** проверь токен BotFather и открой Vercel → Deployments → Functions/Logs.
-- **Не загружается фотография:** открой адрес изображения выше; endpoint должен вернуть JPEG. Если Telegram не может загрузить изображение, бот отправит текст с кнопкой как запасной вариант.
+- **Не загружается фотография:** проверь, что файл `welcome-card.jpg` находится именно в корне проекта `bot/` и попал в Production deployment. Если Telegram не может загрузить изображение, бот отправит текст с кнопкой как запасной вариант.
 - **Открывается не тот Mini App:** проверь значение `MINI_APP_URL` в Production.
 - **После замены токена:** обнови `BOT_TOKEN` в Vercel, сделай Redeploy и повтори setup-запрос.
 
