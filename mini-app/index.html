@@ -1503,6 +1503,7 @@
               src="./IMG_9320.mp4"
               poster="./mainnail.jpg"
               controls
+              muted
               playsinline
               preload="metadata"
               aria-label="Видео Tata Nails"
@@ -1876,7 +1877,18 @@
       });
 
       const video = document.querySelector(".gallery-video");
-      if (video) video.setAttribute("aria-label", copy.galleryVideoLabel);
+      if (video) {
+        video.setAttribute("aria-label", copy.galleryVideoLabel);
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        video.addEventListener("volumechange", () => {
+          if (!video.muted || video.volume !== 0) {
+            video.muted = true;
+            video.volume = 0;
+          }
+        });
+      }
     }
 
     const languageGate = document.getElementById("language-gate");
