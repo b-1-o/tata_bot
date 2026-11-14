@@ -81,7 +81,7 @@ module.exports = async function handler(req, res) {
       chat_id: chatId,
       menu_button: {
         type: "web_app",
-        text: "Курсы маникюра",
+        text: "Курсы / Courses",
         web_app: { url: MINI_APP_URL },
       },
     });
@@ -93,13 +93,18 @@ module.exports = async function handler(req, res) {
     "<b>Добро пожаловать в Tata Nails!</b>\n\n" +
     "Здесь вы можете познакомиться с онлайн-курсом по маникюру, " +
     "посмотреть программу и выбрать удобный способ оплаты.\n\n" +
-    "Нажмите кнопку ниже, чтобы открыть курс.";
+    "Нажмите кнопку ниже, чтобы открыть курс.\n\n" +
+    "──────────────\n\n" +
+    "<b>Welcome to Tata Nails!</b>\n\n" +
+    "Here you can explore our online manicure course, view the curriculum " +
+    "and choose a convenient payment method.\n\n" +
+    "Tap the button below to open the course.";
 
   const replyMarkup = {
     inline_keyboard: [
       [
         {
-          text: "Открыть курс",
+          text: "Открыть курс / Open course",
           web_app: { url: MINI_APP_URL },
         },
       ],
