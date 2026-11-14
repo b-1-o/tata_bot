@@ -698,7 +698,87 @@
       }
     }
 
-  </style>
+  
+    /* Final dark emerald tuning — keep #0f2624 dominant */
+    body {
+      background:
+        radial-gradient(ellipse 90% 34% at 50% 0%, rgba(56, 91, 83, .10), transparent 72%),
+        linear-gradient(158deg, #0f2624 0%, #0d2220 58%, #091b1a 100%);
+    }
+
+    .hero {
+      background:
+        radial-gradient(ellipse 84% 48% at 84% 4%, rgba(60, 99, 90, .13), transparent 70%),
+        radial-gradient(ellipse 72% 48% at 8% 96%, rgba(38, 77, 69, .10), transparent 74%),
+        linear-gradient(145deg, #142c29 0%, #102522 48%, #0b1e1d 100%);
+    }
+
+    .hero::before {
+      box-shadow:
+        0 0 0 1px rgba(211,185,124,.025),
+        0 0 0 26px rgba(211,185,124,.02),
+        0 0 0 54px rgba(211,185,124,.015),
+        0 0 70px rgba(55, 91, 82, .08);
+    }
+
+    .section {
+      background: linear-gradient(165deg, #0f2624 0%, #102724 54%, #0b201f 100%);
+    }
+
+    .audience {
+      background: linear-gradient(130deg, #142f2c, #0f2624);
+    }
+
+    .quote {
+      background: linear-gradient(125deg, #102825, #15312e 48%, #0b1e1d);
+    }
+
+    .pricing {
+      background: linear-gradient(165deg, #0b201f 0%, #102724 54%, #0c211f 100%);
+    }
+
+    .price-card {
+      background: linear-gradient(145deg, #142e2b 0%, #0c211f 100%);
+    }
+
+    .price-card.featured {
+      background: linear-gradient(145deg, #173632 0%, #102724 78%);
+    }
+
+    .brand-mark {
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.08), transparent 54%),
+        linear-gradient(145deg, #173632, #0c211f);
+    }
+
+    .online-tag {
+      background: linear-gradient(120deg, rgba(17, 45, 42, .94), rgba(9, 29, 27, .96));
+    }
+
+    .float-note {
+      background: linear-gradient(135deg, rgba(18, 43, 40, .97), rgba(8, 25, 24, .98));
+    }
+
+    .float-note .note-icon {
+      background: linear-gradient(145deg, #183833, #0d2422);
+    }
+
+    .currency-symbol {
+      background: linear-gradient(145deg, #173632, #0e2522);
+    }
+
+    .hero-image {
+      box-shadow:
+        0 24px 58px rgba(0,0,0,.38),
+        0 0 0 7px rgba(193, 165, 104, .04),
+        0 0 34px rgba(48, 83, 76, .08);
+    }
+
+    .footer {
+      background: linear-gradient(140deg, #091b1a, #0d2220);
+    }
+
+</style>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
