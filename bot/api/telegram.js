@@ -4,9 +4,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 const MINI_APP_URL =
   process.env.MINI_APP_URL || "https://tata-course-miniapp.vercel.app/";
-const WELCOME_IMAGE_URL =
-  process.env.WELCOME_IMAGE_URL ||
-  "https://tata-nails-bot.vercel.app/api/welcome-image";
+const WELCOME_IMAGE_URL = "https://tata-nails-bot.vercel.app/welcome-card.jpg";
 
 async function callTelegram(method, payload) {
   if (!BOT_TOKEN) {
@@ -92,13 +90,10 @@ module.exports = async function handler(req, res) {
   }
 
   const caption =
-    "<b>TATA NAILS</b>\n" +
-    "<i>Искусство маникюра — в деталях.</i>\n\n" +
-    "Онлайн-курс для тех, кто хочет разобраться в технике, выстроить " +
-    "последовательность работы и уделять внимание каждой детали.\n\n" +
-    "Подготовка и инструменты, техника маникюра, форма и покрытие — " +
-    "всё последовательно и в одном месте.\n\n" +
-    "Откройте страницу курса, чтобы изучить программу и выбрать удобный способ оплаты.";
+    "<b>Добро пожаловать в Tata Nails!</b>\n\n" +
+    "Здесь вы можете познакомиться с онлайн-курсом по маникюру, " +
+    "посмотреть программу и выбрать удобный способ оплаты.\n\n" +
+    "Нажмите кнопку ниже, чтобы открыть курс.";
 
   const replyMarkup = {
     inline_keyboard: [
