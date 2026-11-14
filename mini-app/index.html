@@ -8,8 +8,8 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Tata Nails — курс по маникюру">
   <meta property="og:description" content="Внимание к деталям, продуманная техника и эстетика чистого маникюра.">
-  <meta property="og:image" content="https://tata-course-miniapp.vercel.app/nails.jpg">
-  <link rel="preload" as="image" href="./nails.jpg" fetchpriority="high">
+  <meta property="og:image" content="https://tata-course-miniapp.vercel.app/mainnail.jpg">
+  <link rel="preload" as="image" href="./mainnail.jpg" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -871,6 +871,100 @@
       }
     }
 
+  
+    /* Tata Nails gallery — responsive, swipe-first, low-overhead carousel. */
+    .gallery-section { overflow: hidden; }
+    .gallery-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; margin-top: 22px;
+    }
+    .gallery-counter {
+      color: #d8bf86; font-family: var(--serif); font-size: 19px;
+      letter-spacing: .08em; font-variant-numeric: tabular-nums;
+    }
+    .gallery-arrows { display: flex; align-items: center; gap: 8px; }
+    .gallery-arrow {
+      width: 40px; height: 40px; display: grid; place-items: center;
+      padding: 0; color: #e0ca93; background: linear-gradient(145deg,#173632,#0b201e);
+      border: 1px solid rgba(211,185,124,.55); border-radius: 50%; cursor: pointer;
+      transition: transform .18s ease, opacity .18s ease, border-color .18s ease;
+    }
+    .gallery-arrow svg { width: 18px; height: 18px; }
+    .gallery-arrow:active { transform: scale(.96); }
+    .gallery-arrow:disabled { opacity: .3; cursor: default; }
+    .gallery-track {
+      position: relative; display: flex; gap: 14px; overflow-x: auto;
+      margin: 18px -24px 0; padding: 4px 24px 14px;
+      scroll-snap-type: x mandatory; scroll-padding-inline: 24px;
+      overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; touch-action: pan-x pan-y;
+    }
+    .gallery-track::-webkit-scrollbar { display: none; }
+    .gallery-slide {
+      flex: 0 0 min(78%, 340px); max-width: 340px; min-width: 0;
+      margin: 0; scroll-snap-align: center;
+    }
+    .gallery-image-button {
+      display: block; width: 100%; aspect-ratio: .59; overflow: hidden;
+      padding: 0; border: 1px solid rgba(211,185,124,.56);
+      border-radius: 5px 5px 25px 5px; background: #0b1e1d;
+      box-shadow: 0 16px 34px rgba(0,0,0,.28);
+      cursor: zoom-in;
+    }
+    .gallery-image-button img {
+      display: block; width: 100%; height: 100%; object-fit: cover;
+      object-position: center; transition: transform .35s ease;
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .gallery-image-button:hover img { transform: scale(1.025); }
+      .gallery-arrow:hover:not(:disabled) { border-color: #e0ca93; }
+    }
+    .gallery-slide figcaption {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 2px 0; color: #d5bd85; font-size: 9px;
+      font-weight: 700; letter-spacing: .19em;
+    }
+    .gallery-slide figcaption span:last-child {
+      color: #8f9f94; font-family: var(--serif); font-size: 14px;
+      font-weight: 400; letter-spacing: .08em;
+    }
+    .gallery-dots { display: flex; justify-content: center; align-items: center; gap: 7px; margin-top: 14px; }
+    .gallery-dot {
+      width: 6px; height: 6px; min-width: 6px; padding: 0; border: 0;
+      border-radius: 50%; background: rgba(196,177,131,.35); cursor: pointer;
+      transition: width .18s ease, background-color .18s ease;
+    }
+    .gallery-dot.is-active { width: 20px; border-radius: 9px; background: #c8ad73; }
+    .gallery-hint { margin: 12px 0 0; color: #8fa095; font-size: 9px; line-height: 1.6; text-align: center; }
+    .gallery-lightbox {
+      position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+      margin: 0; padding: 54px 14px 18px; border: 0; background: rgba(3,12,11,.97);
+      color: #f1eee4; overflow: hidden;
+    }
+    .gallery-lightbox[open] { display: flex; align-items: center; justify-content: center; }
+    .gallery-lightbox::backdrop { background: rgba(0,0,0,.88); }
+    .gallery-lightbox img {
+      display: block; max-width: 100%; max-height: 100%; width: auto; height: auto;
+      object-fit: contain; border: 1px solid rgba(211,185,124,.55);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .lightbox-close {
+      position: absolute; top: max(12px, env(safe-area-inset-top)); right: 14px;
+      width: 40px; height: 40px; display: grid; place-items: center;
+      padding: 0; color: #e0ca93; border: 1px solid rgba(211,185,124,.6);
+      border-radius: 50%; background: #102522; cursor: pointer;
+    }
+    .lightbox-close svg { width: 19px; height: 19px; }
+    @media (max-width: 370px) {
+      .gallery-track { margin-left: -18px; margin-right: -18px; padding-left: 18px; padding-right: 18px; }
+      .gallery-slide { flex-basis: 82%; }
+      .gallery-arrow { width: 37px; height: 37px; }
+    }
+    @media (min-width: 520px) {
+      .gallery-track { margin-left: -34px; margin-right: -34px; padding-left: 34px; padding-right: 34px; }
+      .gallery-toolbar { margin-top: 26px; }
+      .gallery-slide { flex-basis: 300px; }
+    }
   </style>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -886,18 +980,19 @@
         </span>
         <span class="brand-name"><strong>TATA</strong><span>NAIL EDUCATION</span></span>
       </a>
-      <span class="online-tag">ONLINE COURSE</span>
+      <span class="online-tag" data-i18n="onlineTag">ONLINE COURSE</span>
     </header>
 
     <section class="hero" id="top">
-      <span class="eyebrow">TATA NAILS · ОБУЧЕНИЕ</span>
-      <h1>Искусство маникюра — <em>в деталях.</em></h1>
-      <p class="hero-copy">Онлайн-курс для тех, кто хочет глубже разобраться в технике маникюра, выстроить понятную последовательность работы и уделять внимание каждому этапу.</p>
+      <span class="eyebrow" data-i18n="eyebrow">TATA NAILS · ОБУЧЕНИЕ</span>
+      <h1><span data-i18n="heroTitleLead">Искусство маникюра —</span> <em data-i18n="heroTitleAccent">в деталях.</em></h1>
+      <p class="hero-copy" data-i18n="heroCopy">Онлайн-курс для тех, кто хочет глубже разобраться в технике маникюра, выстроить понятную последовательность работы и уделять внимание каждому этапу.</p>
       <div class="hero-image">
         <img
-          src="./nails.jpg"
-          alt="Нежный маникюр в эстетике Tata Nails"
-          width="840" height="1260" fetchpriority="high" decoding="async">
+          src="./mainnail.jpg"
+          alt="Главная работа Tata Nails"
+          data-i18n-attr="alt:heroImageAlt"
+          width="1284" height="2535" fetchpriority="high" decoding="async">
         <div class="image-caption"><span>THE ART OF DETAIL</span><span>TATA NAILS</span></div>
       </div>
       <div class="float-note">
@@ -906,62 +1001,62 @@
             <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/>
           </svg>
         </span>
-        <span><strong>Точность в каждом движении</strong><small>Внимание к форме, технике и деталям</small></span>
+        <span><strong data-i18n="floatStrong">Точность в каждом движении</strong><small data-i18n="floatSmall">Внимание к форме, технике и деталям</small></span>
       </div>
       <div class="hero-bottom">
-        <small>ОНЛАЙН · В УДОБНОМ ТЕМПЕ</small>
-        <a class="text-arrow" href="#program">Программа курса
+        <small data-i18n="heroBottom">ОНЛАЙН · В УДОБНОМ ТЕМПЕ</small>
+        <a class="text-arrow" href="#program"><span data-i18n="programLink">Программа курса</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
         </a>
       </div>
     </section>
 
     <section class="section" id="program">
-      <div class="section-label">01 / ПРОГРАММА КУРСА</div>
-      <h2>Верхние формы — <em>от А до Я.</em></h2>
-      <p class="section-intro">Подробная программа по работе с верхними формами, моделированию и дизайну. От салонных и арочных техник до аква-дизайнов и французских техник — с расширенной палитрой оттенков.</p>
+      <div class="section-label" data-i18n="programLabel">01 / ПРОГРАММА КУРСА</div>
+      <h2><span data-i18n="programTitleLead">Верхние формы —</span> <em data-i18n="programTitleAccent">от А до Я.</em></h2>
+      <p class="section-intro" data-i18n="programIntro">Подробная программа по работе с верхними формами, моделированию и дизайну. От салонных и арочных техник до аква-дизайнов и французских техник — с расширенной палитрой оттенков.</p>
 
       <div class="modules">
         <article class="module">
           <span class="module-number">01</span>
           <div>
-            <h3>Верхние формы от А до Я</h3>
-            <p>Полный разбор работы с верхними формами — от основных принципов до точного построения формы и аккуратного результата.</p>
+            <h3 data-i18n="moduleTitle1">Верхние формы от А до Я</h3>
+            <p data-i18n="moduleDesc1">Полный разбор работы с верхними формами — от основных принципов до точного построения формы и аккуратного результата.</p>
           </div>
         </article>
         <article class="module">
           <span class="module-number">02</span>
           <div>
-            <h3>Салонное моделирование</h3>
-            <p>Эстетика салонной формы, гармоничные пропорции и чистый, аккуратный вид готовой работы.</p>
+            <h3 data-i18n="moduleTitle2">Салонное моделирование</h3>
+            <p data-i18n="moduleDesc2">Эстетика салонной формы, гармоничные пропорции и чистый, аккуратный вид готовой работы.</p>
           </div>
         </article>
         <article class="module">
           <span class="module-number">03</span>
           <div>
-            <h3>Арочное моделирование</h3>
-            <p>Работа с архитектурой ногтя, выразительной аркой и сбалансированным силуэтом.</p>
+            <h3 data-i18n="moduleTitle3">Арочное моделирование</h3>
+            <p data-i18n="moduleDesc3">Работа с архитектурой ногтя, выразительной аркой и сбалансированным силуэтом.</p>
           </div>
         </article>
         <article class="module">
           <span class="module-number">04</span>
           <div>
-            <h3>Аква-дизайны</h3>
-            <p>Декоративные решения с эффектом глубины, прозрачности и многослойности.</p>
+            <h3 data-i18n="moduleTitle4">Аква-дизайны</h3>
+            <p data-i18n="moduleDesc4">Декоративные решения с эффектом глубины, прозрачности и многослойности.</p>
           </div>
         </article>
         <article class="module">
           <span class="module-number">05</span>
           <div>
-            <h3>Выкладной френч</h3>
-            <p>Выразительная линия улыбки, сочетание оттенков и продуманная композиция свободного края.</p>
+            <h3 data-i18n="moduleTitle5">Выкладной френч</h3>
+            <p data-i18n="moduleDesc5">Выразительная линия улыбки, сочетание оттенков и продуманная композиция свободного края.</p>
           </div>
         </article>
         <article class="module">
           <span class="module-number">06</span>
           <div>
-            <h3>Рисованный френч</h3>
-            <p>Тонкие линии, точность рисунка и современные цветовые вариации французского дизайна.</p>
+            <h3 data-i18n="moduleTitle6">Рисованный френч</h3>
+            <p data-i18n="moduleDesc6">Тонкие линии, точность рисунка и современные цветовые вариации французского дизайна.</p>
           </div>
         </article>
       </div>
@@ -972,28 +1067,111 @@
             <path d="M4 19.5 15.8 4.8a2.1 2.1 0 0 1 3.1 2.8L7.1 22H4v-2.5Z"/>
             <path d="m13.8 7.2 3.2 2.6M4 19.5l3.1 2.5M12 20h8"/>
           </svg>
-          <div><strong>Расширенная палитра</strong><small>Больше оттенков и цветовых сочетаний для разных техник и дизайнов.</small></div>
+          <div><strong data-i18n="audience1Title">Расширенная палитра</strong><small data-i18n="audience1Desc">Больше оттенков и цветовых сочетаний для разных техник и дизайнов.</small></div>
         </div>
         <div class="audience-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 3.2c1.6 2.9 4.1 5.4 7 7-2.9 1.6-5.4 4.1-7 7-1.6-2.9-4.1-5.4-7-7 2.9-1.6 5.4-4.1 7-7Z"/>
             <path d="M12 8.2v8.1M8 12.2h8"/>
           </svg>
-          <div><strong>Эстетика в деталях</strong><small>От сдержанной классики до выразительных цветных акцентов.</small></div>
+          <div><strong data-i18n="audience2Title">Эстетика в деталях</strong><small data-i18n="audience2Desc">От сдержанной классики до выразительных цветных акцентов.</small></div>
         </div>
       </div>
     </section>
 
-    <aside class="quote" aria-label="Философия курса">
+    <section class="section gallery-section" id="gallery">
+      <div class="section-label" data-i18n="galleryLabel">02 / ГАЛЕРЕЯ РАБОТ</div>
+      <h2><span data-i18n="galleryTitleLead">Работы в</span> <em data-i18n="galleryTitleAccent">деталях.</em></h2>
+      <p class="section-intro" data-i18n="galleryIntro">Примеры моделирования и дизайна ногтей. Листайте галерею, чтобы рассмотреть каждую работу.</p>
+
+      <div class="gallery-toolbar">
+        <span class="gallery-counter" id="gallery-counter" aria-live="polite">01 / 10</span>
+        <div class="gallery-arrows">
+          <button class="gallery-arrow" id="gallery-prev" type="button" aria-label="Предыдущее фото">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button class="gallery-arrow" id="gallery-next" type="button" aria-label="Следующее фото">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="gallery-track" id="gallery-track" tabindex="0" role="region" aria-label="Галерея работ Tata Nails">
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="0" aria-label="Открыть фотографию 1">
+            <img src="./nail1.jpg" alt="Пример работы Tata Nails 01" width="1320" height="2120" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>01</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="1" aria-label="Открыть фотографию 2">
+            <img src="./nail2.jpg" alt="Пример работы Tata Nails 02" width="1439" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>02</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="2" aria-label="Открыть фотографию 3">
+            <img src="./nail3.jpg" alt="Пример работы Tata Nails 03" width="1440" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>03</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="3" aria-label="Открыть фотографию 4">
+            <img src="./nail4.jpg" alt="Пример работы Tata Nails 04" width="1440" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>04</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="4" aria-label="Открыть фотографию 5">
+            <img src="./nail5.jpg" alt="Пример работы Tata Nails 05" width="1440" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>05</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="5" aria-label="Открыть фотографию 6">
+            <img src="./nail6.jpg" alt="Пример работы Tata Nails 06" width="1440" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>06</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="6" aria-label="Открыть фотографию 7">
+            <img src="./nail7.jpg" alt="Пример работы Tata Nails 07" width="1920" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>07</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="7" aria-label="Открыть фотографию 8">
+            <img src="./nail8.jpg" alt="Пример работы Tata Nails 08" width="1440" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>08</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="8" aria-label="Открыть фотографию 9">
+            <img src="./nail9.jpg" alt="Пример работы Tata Nails 09" width="1440" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>09</span></figcaption>
+        </figure>
+        <figure class="gallery-slide">
+          <button class="gallery-image-button" type="button" data-gallery-index="9" aria-label="Открыть фотографию 10">
+            <img src="./nail10.jpg" alt="Пример работы Tata Nails 10" width="1440" height="2560" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span data-i18n="galleryWork">РАБОТА</span> <span>10</span></figcaption>
+        </figure>
+      </div>
+      <div class="gallery-dots" id="gallery-dots" aria-label="Выбор фотографии"></div>
+      <p class="gallery-hint" data-i18n="galleryHint">Нажмите на фотографию, чтобы открыть её крупнее.</p>
+    </section>
+
+    <aside class="quote" aria-label="Философия курса" data-i18n-attr="aria-label:quoteLabel">
       <div class="quote-mark" aria-hidden="true">“</div>
-      <p>Красота начинается с точности,<br>а мастерство — с практики.</p>
+      <p><span data-i18n="quoteLine1">Красота начинается с точности,</span><br><span data-i18n="quoteLine2">а мастерство — с практики.</span></p>
     </aside>
 
     <section class="section pricing" id="payment">
       <div class="pricing-head">
-        <div class="section-label">02 / ОПЛАТА</div>
-        <h2>Выберите <em>удобную валюту.</em></h2>
-        <p class="section-intro">Два способа оплаты — выберите тот, который подходит вам.</p>
+        <div class="section-label" data-i18n="paymentLabel">03 / ОПЛАТА</div>
+        <h2><span data-i18n="paymentTitleLead">Выберите</span> <em data-i18n="paymentTitleAccent">удобную валюту.</em></h2>
+        <p class="section-intro" data-i18n="paymentIntro">Два способа оплаты — выберите тот, который подходит вам.</p>
       </div>
 
       <div class="price-grid">
@@ -1002,14 +1180,14 @@
             <span class="currency-symbol" aria-hidden="true">₽</span>
             <span class="currency-details">
               <strong class="currency-code">RUB</strong>
-              <span class="currency-name">Российские рубли</span>
+              <span class="currency-name" data-i18n="currencyRub">Российские рубли</span>
             </span>
             <span class="currency-index" aria-hidden="true">01</span>
           </div>
           <div class="currency-rule"></div>
-          <p class="currency-copy">Оплата в рублях через Tribute.</p>
+          <p class="currency-copy" data-i18n="currencyRubCopy">Оплата в рублях через Tribute.</p>
           <button class="buy-button" type="button" data-payment="rub">
-            Купить за рубли
+            <span data-i18n="buyRub">Купить за рубли</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
         </article>
@@ -1019,14 +1197,14 @@
             <span class="currency-symbol" aria-hidden="true">$</span>
             <span class="currency-details">
               <strong class="currency-code">USD</strong>
-              <span class="currency-name">Доллары США</span>
+              <span class="currency-name" data-i18n="currencyUsd">Доллары США</span>
             </span>
             <span class="currency-index" aria-hidden="true">02</span>
           </div>
           <div class="currency-rule"></div>
-          <p class="currency-copy">Оплата в долларах через Tribute.</p>
+          <p class="currency-copy" data-i18n="currencyUsdCopy">Оплата в долларах через Tribute.</p>
           <button class="buy-button secondary" type="button" data-payment="usd">
-            Купить за доллары
+            <span data-i18n="buyUsd">Купить за доллары</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
         </article>
@@ -1034,16 +1212,24 @@
 
       <p class="payment-note" id="payment-note" role="status">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-        Ссылки на оплату Tribute будут подключены перед запуском продаж.
+        <span data-i18n="paymentNote">Ссылки на оплату Tribute будут подключены перед запуском продаж.</span>
       </p>
     </section>
 
-    <footer class="footer">
+    <footer class="footer" data-i18n-attr="aria-label:footerLabel">
       <strong>TATA NAILS</strong>
-      Онлайн-обучение · Красота в деталях
+      <span data-i18n="footerTagline">Онлайн-обучение · Красота в деталях</span>
     </footer>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog class="gallery-lightbox" id="gallery-lightbox" aria-label="Просмотр фотографии">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Закрыть фотографию">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+    <img id="gallery-lightbox-image" src="" alt="">
+  </dialog>
+
 
   <script>
     // Replace these two values with the exact Tribute deep links before accepting payments.
@@ -1062,6 +1248,175 @@
       }
     }
 
+    const translations = {
+      ru: {
+        title: "Онлайн-курс по маникюру — Tata Nails",
+        description: "Онлайн-курс Tata Nails: верхние формы, салонное и арочное моделирование, аква-дизайны и французские техники.",
+        ogTitle: "Tata Nails — курс по маникюру",
+        ogDescription: "Верхние формы от А до Я, моделирование и дизайн ногтей.",
+        onlineTag: "ОНЛАЙН-КУРС",
+        eyebrow: "TATA NAILS · ОБУЧЕНИЕ",
+        heroTitleLead: "Искусство маникюра —",
+        heroTitleAccent: "в деталях.",
+        heroCopy: "Онлайн-курс для тех, кто хочет освоить верхние формы, моделирование и выразительные дизайны, уделяя внимание каждой детали.",
+        heroImageAlt: "Пример работы Tata Nails",
+        floatStrong: "Точность в каждом движении",
+        floatSmall: "Внимание к форме, технике и деталям",
+        heroBottom: "ОНЛАЙН · В УДОБНОМ ТЕМПЕ",
+        programLink: "Программа курса",
+        programLabel: "01 / ПРОГРАММА КУРСА",
+        programTitleLead: "Верхние формы —",
+        programTitleAccent: "от А до Я.",
+        programIntro: "Подробная программа по работе с верхними формами, моделированию и дизайну. От салонных и арочных техник до аква-дизайнов и французских техник — с расширенной палитрой оттенков.",
+        moduleTitle1: "Верхние формы от А до Я",
+        moduleDesc1: "Полный разбор работы с верхними формами — от основных принципов до точного построения формы и аккуратного результата.",
+        moduleTitle2: "Салонное моделирование",
+        moduleDesc2: "Эстетика салонной формы, гармоничные пропорции и чистый, аккуратный вид готовой работы.",
+        moduleTitle3: "Арочное моделирование",
+        moduleDesc3: "Работа с архитектурой ногтя, выразительной аркой и сбалансированным силуэтом.",
+        moduleTitle4: "Аква-дизайны",
+        moduleDesc4: "Декоративные решения с эффектом глубины, прозрачности и многослойности.",
+        moduleTitle5: "Выкладной френч",
+        moduleDesc5: "Выразительная линия улыбки, сочетание оттенков и продуманная композиция свободного края.",
+        moduleTitle6: "Рисованный френч",
+        moduleDesc6: "Тонкие линии, точность рисунка и современные цветовые вариации французского дизайна.",
+        audience1Title: "Расширенная палитра",
+        audience1Desc: "Больше оттенков и цветовых сочетаний для разных техник и дизайнов.",
+        audience2Title: "Эстетика в деталях",
+        audience2Desc: "От сдержанной классики до выразительных цветных акцентов.",
+        galleryLabel: "02 / ГАЛЕРЕЯ РАБОТ",
+        galleryTitleLead: "Работы в",
+        galleryTitleAccent: "деталях.",
+        galleryIntro: "Примеры моделирования и дизайна ногтей. Листайте галерею, чтобы рассмотреть каждую работу.",
+        galleryWork: "РАБОТА",
+        galleryHint: "Нажмите на фотографию, чтобы открыть её крупнее.",
+        galleryPrevious: "Предыдущее фото",
+        galleryNext: "Следующее фото",
+        galleryTrack: "Галерея работ Tata Nails",
+        galleryChoose: "Выбор фотографии",
+        galleryDot: "Перейти к фото",
+        galleryLightbox: "Просмотр фотографии",
+        lightboxClose: "Закрыть фотографию",
+        quoteLabel: "Философия курса",
+        quoteLine1: "Красота начинается с точности,",
+        quoteLine2: "а мастерство — с практики.",
+        paymentLabel: "03 / ОПЛАТА",
+        paymentTitleLead: "Выберите",
+        paymentTitleAccent: "удобную валюту.",
+        paymentIntro: "Два способа оплаты — выберите тот, который подходит вам.",
+        currencyRub: "Российские рубли",
+        currencyRubCopy: "Оплата в рублях через Tribute.",
+        buyRub: "Купить за рубли",
+        currencyUsd: "Доллары США",
+        currencyUsdCopy: "Оплата в долларах через Tribute.",
+        buyUsd: "Купить за доллары",
+        paymentNote: "Ссылки на оплату Tribute будут подключены перед запуском продаж.",
+        paymentUnavailable: "Ссылка на оплату в {currency} пока не подключена.",
+        paymentError: "Не удалось открыть оплату. Попробуйте ещё раз.",
+        footerLabel: "Подвал сайта Tata Nails",
+        footerTagline: "Онлайн-обучение · Красота в деталях"
+      },
+      en: {
+        title: "Nail Art Course — Tata Nails",
+        description: "Tata Nails online course: dual forms, salon and arched modeling, aqua designs and French techniques.",
+        ogTitle: "Tata Nails — Nail Art Course",
+        ogDescription: "Dual forms from A to Z, nail modeling and design.",
+        onlineTag: "ONLINE COURSE",
+        eyebrow: "TATA NAILS · EDUCATION",
+        heroTitleLead: "The art of nail design —",
+        heroTitleAccent: "in every detail.",
+        heroCopy: "An online course for anyone looking to master dual forms, nail modeling and expressive designs, with attention to every detail.",
+        heroImageAlt: "Tata Nails nail design example",
+        floatStrong: "Precision in every movement",
+        floatSmall: "A focus on shape, technique and detail",
+        heroBottom: "ONLINE · LEARN AT YOUR OWN PACE",
+        programLink: "Course program",
+        programLabel: "01 / COURSE PROGRAM",
+        programTitleLead: "Dual forms —",
+        programTitleAccent: "from A to Z.",
+        programIntro: "A detailed program covering dual forms, nail modeling and design. From salon and arched techniques to aqua designs and French styles, with an expanded color palette.",
+        moduleTitle1: "Dual Forms from A to Z",
+        moduleDesc1: "A complete look at working with dual forms, from core principles to precise shaping and a refined finish.",
+        moduleTitle2: "Salon Nail Modeling",
+        moduleDesc2: "Salon-ready shapes, balanced proportions and a clean, polished result.",
+        moduleTitle3: "Arched Nail Modeling",
+        moduleDesc3: "Nail architecture, a defined arch and a beautifully balanced silhouette.",
+        moduleTitle4: "Aqua Designs",
+        moduleDesc4: "Decorative techniques that create depth, transparency and layered effects.",
+        moduleTitle5: "Sculpted French",
+        moduleDesc5: "A defined smile line, thoughtful color combinations and a carefully shaped free edge.",
+        moduleTitle6: "Painted French",
+        moduleDesc6: "Fine lines, precise detailing and modern color variations on the classic French design.",
+        audience1Title: "Expanded Color Palette",
+        audience1Desc: "More shades and color combinations for different techniques and designs.",
+        audience2Title: "Beauty in the Details",
+        audience2Desc: "From understated classics to expressive pops of color.",
+        galleryLabel: "02 / WORK GALLERY",
+        galleryTitleLead: "Every detail,",
+        galleryTitleAccent: "beautifully made.",
+        galleryIntro: "Examples of nail modeling and design. Swipe through the gallery to explore each look.",
+        galleryWork: "LOOK",
+        galleryHint: "Tap a photo to view it in a larger size.",
+        galleryPrevious: "Previous photo",
+        galleryNext: "Next photo",
+        galleryTrack: "Tata Nails work gallery",
+        galleryChoose: "Choose a photo",
+        galleryDot: "Go to photo",
+        galleryLightbox: "Photo viewer",
+        lightboxClose: "Close photo",
+        quoteLabel: "Course philosophy",
+        quoteLine1: "Beauty begins with precision,",
+        quoteLine2: "and mastery grows with practice.",
+        paymentLabel: "03 / PAYMENT",
+        paymentTitleLead: "Choose your",
+        paymentTitleAccent: "preferred currency.",
+        paymentIntro: "Two payment options — choose the one that works best for you.",
+        currencyRub: "Russian Rubles",
+        currencyRubCopy: "Pay in rubles through Tribute.",
+        buyRub: "Buy in RUB",
+        currencyUsd: "US Dollars",
+        currencyUsdCopy: "Pay in US dollars through Tribute.",
+        buyUsd: "Buy in USD",
+        paymentNote: "Tribute payment links will be added before sales begin.",
+        paymentUnavailable: "The {currency} payment link is not available yet.",
+        paymentError: "Could not open the payment page. Please try again.",
+        footerLabel: "Tata Nails website footer",
+        footerTagline: "Online education · Beauty in every detail"
+      }
+    };
+
+    const telegramLanguage = telegram?.initDataUnsafe?.user?.language_code;
+    const browserLanguage = navigator.language || "ru";
+    const detectedLanguage = String(telegramLanguage || browserLanguage).toLowerCase().split(/[-_]/)[0];
+    const currentLanguage = detectedLanguage === "en" ? "en" : "ru";
+    const copy = translations[currentLanguage];
+
+    document.documentElement.lang = currentLanguage;
+    document.title = copy.title;
+    const descriptionMeta = document.querySelector('meta[name="description"]');
+    const ogTitleMeta = document.querySelector('meta[property="og:title"]');
+    const ogDescriptionMeta = document.querySelector('meta[property="og:description"]');
+    if (descriptionMeta) descriptionMeta.content = copy.description;
+    if (ogTitleMeta) ogTitleMeta.content = copy.ogTitle;
+    if (ogDescriptionMeta) ogDescriptionMeta.content = copy.ogDescription;
+
+    document.querySelectorAll("[data-i18n]").forEach((element) => {
+      const key = element.dataset.i18n;
+      if (copy[key] !== undefined) element.textContent = copy[key];
+    });
+
+    document.querySelectorAll("[data-i18n-attr]").forEach((element) => {
+      element.dataset.i18nAttr.split("|").forEach((entry) => {
+        const [attribute, key] = entry.split(":");
+        if (attribute && key && copy[key] !== undefined) {
+          element.setAttribute(attribute, copy[key]);
+        }
+      });
+    });
+
+    const PAYMENT_URL_RUB = "https://telegram.me/tribute/app?startapp=ЗАМЕНИ_НА_ССЫЛКУ_RUB";
+    const PAYMENT_URL_USD = "https://telegram.me/tribute/app?startapp=ЗАМЕНИ_НА_ССЫЛКУ_USD";
+
     const toast = document.getElementById("toast");
     let toastTimer;
     function showMessage(message) {
@@ -1076,7 +1431,7 @@
       const isPlaceholder = url.includes("ЗАМЕНИ_НА_ССЫЛКУ") || url.includes("REPLACE_WITH");
 
       if (isPlaceholder) {
-        showMessage("Ссылка на оплату в " + currency.toUpperCase() + " пока не подключена.");
+        showMessage(copy.paymentUnavailable.replace("{currency}", currency.toUpperCase()));
         return;
       }
 
@@ -1087,7 +1442,7 @@
           window.open(url, "_blank", "noopener,noreferrer");
         }
       } catch (error) {
-        showMessage("Не удалось открыть оплату. Попробуйте ещё раз.");
+        showMessage(copy.paymentError);
       }
     }
 
@@ -1099,6 +1454,89 @@
     if (paymentLinksReady) {
       document.getElementById("payment-note").hidden = true;
     }
+
+    // Lightweight snap carousel: swipe, arrows, dots and a native full-screen viewer.
+    const galleryTrack = document.getElementById("gallery-track");
+    const gallerySlides = Array.from(galleryTrack.querySelectorAll(".gallery-slide"));
+    const galleryPrev = document.getElementById("gallery-prev");
+    const galleryNext = document.getElementById("gallery-next");
+    const galleryCounter = document.getElementById("gallery-counter");
+    const galleryDots = document.getElementById("gallery-dots");
+    let activeGalleryIndex = 0;
+
+    const dotButtons = gallerySlides.map((slide, index) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "gallery-dot";
+      dot.setAttribute("aria-label", copy.galleryDot + " " + (index + 1));
+      dot.addEventListener("click", () => goToGallerySlide(index));
+      galleryDots.appendChild(dot);
+      return dot;
+    });
+
+    function updateGalleryState(index) {
+      activeGalleryIndex = Math.max(0, Math.min(gallerySlides.length - 1, index));
+      galleryCounter.textContent =
+        String(activeGalleryIndex + 1).padStart(2, "0") +
+        " / " + String(gallerySlides.length).padStart(2, "0");
+      galleryPrev.disabled = activeGalleryIndex === 0;
+      galleryNext.disabled = activeGalleryIndex === gallerySlides.length - 1;
+      dotButtons.forEach((dot, dotIndex) => {
+        dot.classList.toggle("is-active", dotIndex === activeGalleryIndex);
+        if (dotIndex === activeGalleryIndex) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    }
+
+    function goToGallerySlide(index) {
+      const targetIndex = Math.max(0, Math.min(gallerySlides.length - 1, index));
+      const slide = gallerySlides[targetIndex];
+      const targetLeft = slide.offsetLeft - galleryTrack.offsetLeft -
+        (galleryTrack.clientWidth - slide.clientWidth) / 2;
+      galleryTrack.scrollTo({ left: targetLeft, behavior: "smooth" });
+      updateGalleryState(targetIndex);
+    }
+
+    galleryPrev.addEventListener("click", () => goToGallerySlide(activeGalleryIndex - 1));
+    galleryNext.addEventListener("click", () => goToGallerySlide(activeGalleryIndex + 1));
+
+    if ("IntersectionObserver" in window) {
+      const galleryObserver = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length) {
+          const index = gallerySlides.indexOf(visible[0].target);
+          if (index >= 0) updateGalleryState(index);
+        }
+      }, { root: galleryTrack, threshold: [0.45, 0.6, 0.75] });
+      gallerySlides.forEach((slide) => galleryObserver.observe(slide));
+    }
+
+    updateGalleryState(0);
+    galleryTrack.setAttribute("aria-label", copy.galleryTrack);
+    galleryDots.setAttribute("aria-label", copy.galleryChoose);
+
+    const lightbox = document.getElementById("gallery-lightbox");
+    const lightboxImage = document.getElementById("gallery-lightbox-image");
+    const lightboxClose = document.getElementById("lightbox-close");
+    lightbox.setAttribute("aria-label", copy.galleryLightbox);
+    lightboxClose.setAttribute("aria-label", copy.lightboxClose);
+
+    document.querySelectorAll("[data-gallery-index]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const sourceImage = button.querySelector("img");
+        lightboxImage.src = sourceImage.currentSrc || sourceImage.src;
+        lightboxImage.alt = sourceImage.alt;
+        if (typeof lightbox.showModal === "function") lightbox.showModal();
+        else window.open(lightboxImage.src, "_blank", "noopener,noreferrer");
+      });
+    });
+
+    lightboxClose.addEventListener("click", () => lightbox.close());
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) lightbox.close();
+    });
   </script>
 </body>
 </html>
