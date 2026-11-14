@@ -7,7 +7,7 @@ Telegram-бот для курса Tata Nails. Команда `/start` отпра
 ## Что уже подготовлено
 
 - Код webhook: `api/telegram.js`.
-- Файл приветственной карточки: `welcome-card.jpg` в корне проекта `bot/`.
+- Файл приветственной карточки должен лежать как `bot/welcome-card.jpg` (корень проекта Vercel — папка `bot/`).
 - Автоматическая настройка Telegram: `api/setup.js`.
 - Скрипт альтернативной регистрации webhook: `scripts/set-webhook.cjs`.
 - Отдельный проект Vercel: `tata-nails-bot`.
@@ -102,7 +102,7 @@ unset WEBHOOK_SECRET
 - **Бот молчит:** проверь, что `BOT_TOKEN` относится именно к новому боту, а `WEBHOOK_SECRET` добавлен в Production, после этого сделай Redeploy.
 - **Setup возвращает 401:** секрет в заголовке должен точно совпадать со значением `WEBHOOK_SECRET` в Vercel.
 - **Setup возвращает 502:** проверь токен BotFather и открой Vercel → Deployments → Functions/Logs.
-- **Не загружается фотография:** проверь, что файл `welcome-card.jpg` находится именно в корне проекта `bot/` и попал в Production deployment. Если Telegram не может загрузить изображение, бот отправит текст с кнопкой как запасной вариант.
+- **Не загружается фотография:** добавь полученный JPEG в репозиторий под путём `bot/welcome-card.jpg`, затем отправь commit в `main`, чтобы Vercel включил файл в Production deployment. Если Telegram не может загрузить изображение, бот отправит текст с кнопкой как запасной вариант.
 - **Открывается не тот Mini App:** проверь значение `MINI_APP_URL` в Production.
 - **После замены токена:** обнови `BOT_TOKEN` в Vercel, сделай Redeploy и повтори setup-запрос.
 
