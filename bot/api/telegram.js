@@ -4,7 +4,20 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 const MINI_APP_URL =
   process.env.MINI_APP_URL || "https://tata-course-miniapp.vercel.app/";
-const WELCOME_IMAGE_URL = "https://tata-nails-bot.vercel.app/welome-card.jpeg";
+const WELCOME_IMAGE_URL = "https://tata-nails-bot.vercel.app/welcome-card.jpeg?v=193d28e3";
+
+function getLanguage(languageCode) {
+  return typeof languageCode === "string" &&
+    languageCode.toLowerCase().startsWith("en")
+    ? "en"
+    : "ru";
+}
+
+function getMiniAppUrl(language) {
+  const url = new URL(MINI_APP_URL);
+  url.searchParams.set("lang", language);
+  return url.toString();
+}
 
 async function callTelegram(method, payload) {
   if (!BOT_TOKEN) {
@@ -74,15 +87,17 @@ module.exports = async function handler(req, res) {
   }
 
   const chatId = message.chat.id;
+  const language = getLanguage(message.from?.language_code);
+  const miniAppUrl = getMiniAppUrl(language);
 
-  // Keep the Mini App available from the chat menu after the welcome message.
+  // Keep a language-specific Mini App URL in this user's private chat menu.
   try {
     await callTelegram("setChatMenuButton", {
       chat_id: chatId,
       menu_button: {
         type: "web_app",
-        text: "Курсы / Courses",
-        web_app: { url: MINI_APP_URL },
+        text: language === "en" ? "Courses" : "Курсы",
+        web_app: { url: miniAppUrl },
       },
     });
   } catch (error) {
@@ -104,8 +119,8 @@ module.exports = async function handler(req, res) {
     inline_keyboard: [
       [
         {
-          text: "Открыть курс / Open course",
-          web_app: { url: MINI_APP_URL },
+          text: language === "en" ? "Open course" : "Открыть курс",
+          web_app: { url: miniAppUrl },
         },
       ],
     ],
@@ -140,5 +155,5 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  return res.status(200).json({ ok: true });
+  return res.status(200).json({ ok: true, language });
 };
