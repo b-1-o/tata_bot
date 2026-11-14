@@ -978,7 +978,7 @@
             <path d="M12 8.2v8.1M8 12.2h8"/>
           </svg>
         </span>
-        <span class="brand-name"><strong>TATA</strong><span>NAIL EDUCATION</span></span>
+        <span class="brand-name"><strong>TATA</strong><span data-i18n="brandTag">NAIL EDUCATION</span></span>
       </a>
       <span class="online-tag" data-i18n="onlineTag">ONLINE COURSE</span>
     </header>
@@ -1254,6 +1254,7 @@
         description: "Онлайн-курс Tata Nails: верхние формы, салонное и арочное моделирование, аква-дизайны и французские техники.",
         ogTitle: "Tata Nails — курс по маникюру",
         ogDescription: "Верхние формы от А до Я, моделирование и дизайн ногтей.",
+        brandTag: "ШКОЛА МАНИКЮРА",
         onlineTag: "ОНЛАЙН-КУРС",
         eyebrow: "TATA NAILS · ОБУЧЕНИЕ",
         heroTitleLead: "Искусство маникюра —",
@@ -1295,6 +1296,7 @@
         galleryTrack: "Галерея работ Tata Nails",
         galleryChoose: "Выбор фотографии",
         galleryDot: "Перейти к фото",
+        galleryOpenPhoto: "Открыть фотографию",
         galleryLightbox: "Просмотр фотографии",
         lightboxClose: "Закрыть фотографию",
         quoteLabel: "Философия курса",
@@ -1321,6 +1323,7 @@
         description: "Tata Nails online course: dual forms, salon and arched modeling, aqua designs and French techniques.",
         ogTitle: "Tata Nails — Nail Art Course",
         ogDescription: "Dual forms from A to Z, nail modeling and design.",
+        brandTag: "NAIL EDUCATION",
         onlineTag: "ONLINE COURSE",
         eyebrow: "TATA NAILS · EDUCATION",
         heroTitleLead: "The art of nail design —",
@@ -1362,6 +1365,7 @@
         galleryTrack: "Tata Nails work gallery",
         galleryChoose: "Choose a photo",
         galleryDot: "Go to photo",
+        galleryOpenPhoto: "Open photo",
         galleryLightbox: "Photo viewer",
         lightboxClose: "Close photo",
         quoteLabel: "Course philosophy",
@@ -1464,6 +1468,16 @@
     const galleryDots = document.getElementById("gallery-dots");
     let activeGalleryIndex = 0;
 
+    gallerySlides.forEach((slide, index) => {
+      const image = slide.querySelector("img");
+      const imageNumber = String(index + 1).padStart(2, "0");
+      image.alt = currentLanguage === "en"
+        ? "Tata Nails work example " + imageNumber
+        : "Пример работы Tata Nails " + imageNumber;
+      const imageButton = slide.querySelector("[data-gallery-index]");
+      imageButton.setAttribute("aria-label", copy.galleryOpenPhoto + " " + (index + 1));
+    });
+
     const dotButtons = gallerySlides.map((slide, index) => {
       const dot = document.createElement("button");
       dot.type = "button";
@@ -1491,7 +1505,7 @@
     function goToGallerySlide(index) {
       const targetIndex = Math.max(0, Math.min(gallerySlides.length - 1, index));
       const slide = gallerySlides[targetIndex];
-      const targetLeft = slide.offsetLeft - galleryTrack.offsetLeft -
+      const targetLeft = slide.offsetLeft -
         (galleryTrack.clientWidth - slide.clientWidth) / 2;
       galleryTrack.scrollTo({ left: targetLeft, behavior: "smooth" });
       updateGalleryState(targetIndex);
