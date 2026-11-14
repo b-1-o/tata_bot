@@ -95,7 +95,7 @@
       position: absolute; left: 12px; bottom: 54px; display: flex; align-items: center; gap: 10px;
       padding: 11px 14px 11px 10px; background: rgba(255,255,255,.91);
       border: 1px solid rgba(255,255,255,.92); box-shadow: 0 10px 28px rgba(43, 94, 71, .12);
-      backdrop-filter: blur(12px);
+
     }
     .float-note .note-icon {
       width: 33px; height: 33px; flex: 0 0 auto; display: grid; place-items: center;
@@ -649,8 +649,10 @@
       pointer-events: none;
     }
 
-    .buy-button:hover::before { transform: translateX(130%); }
-    .buy-button:hover { background: linear-gradient(115deg, #c9ad73, #ecd9a6 48%, #c9ad73); }
+    @media (hover: hover) and (pointer: fine) {
+      .buy-button:hover::before { transform: translateX(130%); }
+      .buy-button:hover { background: linear-gradient(115deg, #c9ad73, #ecd9a6 48%, #c9ad73); }
+    }
     .buy-button.secondary {
       color: #e2cc95;
       background: linear-gradient(145deg, rgba(30,72,49,.72), rgba(9,31,21,.94));
