@@ -1,105 +1,117 @@
 # Tata Nails Bot
 
-A small Telegram bot for the Tata Nails course. It sends a welcome message on `/start`, shows one button that opens the existing Mini App, and configures the persistent chat menu button for that user.
+Простой Telegram-бот для курса Tata Nails. Он отвечает на команду `/start`, отправляет приветствие с одной кнопкой **«Открыть курс»** и добавляет постоянную кнопку меню **«Курсы маникюра»**.
 
-The bot runs as a Vercel Function. No VPS, always-on computer, Cloudflare Worker, database, or third-party bot platform is required.
+Бот работает через **Vercel Functions** — это serverless-хостинг. Не нужны собственный сервер, VPS, Cloudflare, база данных или постоянно включённый компьютер.
 
-## Architecture
+## Как всё устроено
 
-- Telegram sends bot updates to the HTTPS webhook at `/api/telegram`.
-- The Vercel Function verifies Telegram's webhook secret.
-- On `/start`, it sends a welcome message with one Mini App button.
-- It also sets the chat's menu button to "Курсы маникюра".
-- Course presentation and checkout stay in the existing Mini App and Tribute subscriptions.
+1. Клиент открывает Tata Nails Bot и нажимает **Start**.
+2. Бот отправляет приветствие и одну кнопку **«Открыть курс»**.
+3. Нажатие открывает готовое Mini App: https://tata-course-miniapp.vercel.app/
+4. После первого запуска внизу чата также появляется меню-кнопка **«Курсы маникюра»**.
+5. Выбор оплаты и переход в Tribute происходят внутри Mini App. Бот не принимает платежи и не управляет доступом к закрытому каналу.
 
-## 1. Create the bot in Telegram
+## 1. Создай бота через BotFather
 
-1. Open `@BotFather` and send `/newbot`.
-2. Enter the display name `Tata Nails Bot`.
-3. Choose an available username ending in `bot`.
-4. Copy the HTTP API token. Treat it like a password; do not paste it into GitHub or public chats.
-5. Optional: use `/setdescription` to set a short bot description, and `/setabouttext` for the profile text.
+1. Открой Telegram и найди `@BotFather`.
+2. Отправь команду `/newbot`.
+3. Введи имя: `Tata Nails Bot`.
+4. Придумай свободный username, который заканчивается на `bot`.
+5. BotFather выдаст **HTTP API Token**. Сохрани его приватно. Не отправляй токен в GitHub, переписку или скриншоты.
+6. По желанию отправь `/setdescription` и выбери созданного бота.
 
-Suggested description:
+Текст описания:
 
 > Онлайн-курс Tata Nails по маникюру. Программа обучения и оформление доступа в одном месте.
 
-## 2. Deploy the bot to Vercel
+## 2. Где размещён код бота
 
-Create a separate Vercel project linked to the same GitHub repository:
+В GitHub созданы файлы в папке `bot/`:
 
-- Repository: `b-1-o/tata_bot`
-- Project name: `tata-nails-bot`
-- Root Directory: `bot`
-- Framework preset: Other (or let Vercel detect it)
-- Production branch: `main`
+- `api/telegram.js` — обработчик команды `/start`.
+- `scripts/set-webhook.cjs` — одноразовая настройка webhook в Telegram.
+- `.env.example` — пример локальных переменных.
+- `.gitignore` — защита локальных файлов с секретами.
+- `README.md` — эта инструкция.
 
-The API endpoint will be:
+Отдельный Vercel-проект уже создан:
 
-`https://tata-nails-bot.vercel.app/api/telegram`
+- **Project:** `tata-nails-bot`
+- **Repository:** `b-1-o/tata_bot`
+- **Root Directory:** `bot`
+- **Production URL:** https://tata-nails-bot.vercel.app/
+- **Webhook URL:** https://tata-nails-bot.vercel.app/api/telegram
 
-If Vercel assigns a different production domain, use that exact domain in `WEBHOOK_URL`.
+Mini App продолжает работать в своём отдельном Vercel-проекте.
 
-## 3. Add environment variables in Vercel
+## 3. Добавь секреты в Vercel
 
-In the Vercel project `tata-nails-bot`, open **Settings → Environment Variables** and add these for the **Production** environment:
+Открой проект `tata-nails-bot` в Vercel → **Settings → Environment Variables**. Добавь переменные для окружения **Production**:
 
-| Name | Value |
+| Переменная | Что указать |
 |---|---|
-| `BOT_TOKEN` | Token copied from BotFather |
-| `WEBHOOK_SECRET` | A random secret containing 1–256 letters, numbers, underscores or hyphens |
+| `BOT_TOKEN` | Токен, который выдал BotFather |
+| `WEBHOOK_SECRET` | Случайный секрет для проверки запросов Telegram |
 | `MINI_APP_URL` | `https://tata-course-miniapp.vercel.app/` |
 
-Save the variables and redeploy the latest Production deployment so the function receives them.
-
-Generate a webhook secret on your computer with:
+Сгенерировать секрет можно локально:
 
 ```bash
 node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 ```
 
-Use the same generated value in Vercel and in your local `.env.local` file.
+Скопируй полученную строку в `WEBHOOK_SECRET` в Vercel. После добавления или изменения переменных запусти **Redeploy** последнего Production deployment.
 
-## 4. Register the Telegram webhook once
+**Важно:** токен бота и webhook-секрет не должны попадать в GitHub.
 
-On your computer, copy `.env.example` to `.env.local` inside the `bot/` directory. Put the real `BOT_TOKEN` and the exact same `WEBHOOK_SECRET` used in Vercel into `.env.local`.
+## 4. Зарегистрируй webhook в Telegram
 
-Then run:
+Webhook нужно зарегистрировать один раз. Для этого используется маленький скрипт из репозитория.
+
+В терминале на своём компьютере:
+
+```bash
+cd bot
+cp .env.example .env.local
+```
+
+Открой `.env.local` и заполни настоящими значениями:
+
+- `BOT_TOKEN` — тот же токен BotFather, что добавлен в Vercel.
+- `WEBHOOK_SECRET` — ровно тот же секрет, что добавлен в Vercel.
+- `WEBHOOK_URL` — оставь адрес из примера, если Vercel-домен не менялся.
+- `MINI_APP_URL` — оставь адрес готового Mini App.
+
+Затем запусти:
 
 ```bash
 node scripts/set-webhook.cjs
 ```
 
-The script calls Telegram's `setWebhook` method. It does not print or commit the bot token. You only need to run it once, and again only if the webhook URL or secret changes.
+Скрипт отправит Telegram адрес webhook и секрет проверки. Токен не выводится в терминал. Файл `.env.local` исключён из Git через `.gitignore`.
 
-Check the endpoint in a browser:
+Если команда завершилась сообщением об успешной настройке, Telegram уже знает, куда отправлять команды боту.
 
-`https://tata-nails-bot.vercel.app/api/telegram`
+## 5. Проверь работу
 
-It should return a small JSON health response. It will report whether the environment variables are present, but never returns their values.
+1. Открой в браузере https://tata-nails-bot.vercel.app/api/telegram
+2. До настройки секретов ответ покажет `configured: false`; после добавления переменных и Redeploy должен показать `configured: true`.
+3. Открой своего бота в Telegram и нажми **Start**.
+4. Должно прийти приветствие с одной кнопкой **«Открыть курс»**.
+5. Нажми её и проверь открытие Mini App.
+6. Закрой Mini App: внизу чата должна быть кнопка **«Курсы маникюра»**.
 
-## 5. Test the bot
+## 6. Передача заказчице
 
-1. Open the bot in Telegram and press **Start**.
-2. It should send a welcome message in Russian.
-3. The message should contain one button: **Открыть курс**.
-4. Press it; the existing Tata Nails Mini App should open.
-5. Close the Mini App. The chat's bottom menu button should show **Курсы маникюра** and open the same Mini App.
-6. Test `/start` again to confirm the greeting works.
+Перед передачей:
 
-## 6. Hand over to the course owner
+- передай заказчице владение ботом через инструменты BotFather;
+- передай или перенеси Vercel-проект в её Vercel-аккаунт;
+- передай репозиторий GitHub или добавь её с нужными правами;
+- убедись, что Tribute, закрытый канал и реквизиты выплат оформлены на заказчицу;
+- не пересылай токен открытым сообщением; при необходимости перевыпусти его через BotFather и обнови `BOT_TOKEN` в Vercel.
 
-Before handover:
+## Важно
 
-- Make sure the bot itself is owned by the client (or transfer ownership using BotFather).
-- Add the client's own Vercel account/team as project owner or transfer the Vercel project to the client's account.
-- Transfer control of the GitHub repository or add the client with the right access level.
-- The client should control the BotFather account, Tribute account, private course channel, and payout details.
-- Rotate the bot token in BotFather if it was ever exposed, then update `BOT_TOKEN` in Vercel and redeploy.
-- Never put `BOT_TOKEN` or `WEBHOOK_SECRET` in source code, screenshots, or the public repository.
-
-## Notes
-
-- The bot does not process payments and does not grant course access itself. Tribute remains responsible for payment and channel access according to the configured subscription.
-- No database is needed for the greeting-and-launch flow.
-- If the project is moved to another Vercel account or its domain changes, update `WEBHOOK_URL` and register the webhook again.
+Этот бот делает только приветствие и открывает Mini App. Он не обрабатывает платежи. Автоматическая оплата и выдача доступа к каналу настраиваются отдельно в Tribute. Для запуска самого бота база данных не нужна.
