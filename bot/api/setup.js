@@ -63,7 +63,6 @@ module.exports = async function handler(req, res) {
       url: WEBHOOK_URL,
       secret_token: WEBHOOK_SECRET,
       allowed_updates: ["message"],
-      drop_pending_updates: true,
     });
     results.webhook = "configured";
 
