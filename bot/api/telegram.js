@@ -4,6 +4,9 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 const MINI_APP_URL =
   process.env.MINI_APP_URL || "https://tata-course-miniapp.vercel.app/";
+const WELCOME_IMAGE_URL =
+  process.env.WELCOME_IMAGE_URL ||
+  "https://tata-nails-bot.vercel.app/api/welcome-image";
 
 async function callTelegram(method, payload) {
   if (!BOT_TOKEN) {
@@ -74,7 +77,7 @@ module.exports = async function handler(req, res) {
 
   const chatId = message.chat.id;
 
-  // The per-chat menu button keeps the Mini App available after the greeting.
+  // Keep the Mini App available from the chat menu after the welcome message.
   try {
     await callTelegram("setChatMenuButton", {
       chat_id: chatId,
@@ -85,34 +88,56 @@ module.exports = async function handler(req, res) {
       },
     });
   } catch (error) {
-    // The inline button below still opens the Mini App if this optional call fails.
     console.error("setChatMenuButton failed:", error.message);
   }
 
+  const caption =
+    "<b>TATA NAILS</b>\n" +
+    "<i>Искусство маникюра — в деталях.</i>\n\n" +
+    "Онлайн-курс для тех, кто хочет разобраться в технике, выстроить " +
+    "последовательность работы и уделять внимание каждой детали.\n\n" +
+    "Подготовка и инструменты, техника маникюра, форма и покрытие — " +
+    "всё последовательно и в одном месте.\n\n" +
+    "Откройте страницу курса, чтобы изучить программу и выбрать удобный способ оплаты.";
+
+  const replyMarkup = {
+    inline_keyboard: [
+      [
+        {
+          text: "Открыть курс",
+          web_app: { url: MINI_APP_URL },
+        },
+      ],
+    ],
+  };
+
   try {
-    await callTelegram("sendMessage", {
+    await callTelegram("sendPhoto", {
       chat_id: chatId,
-      text:
-        "<b>Добро пожаловать в Tata Nails!</b>\n\n" +
-        "Здесь вы можете познакомиться с онлайн-курсом по маникюру, " +
-        "посмотреть программу и выбрать удобный способ оплаты.\n\n" +
-        "Нажмите кнопку ниже, чтобы открыть курс.",
+      photo: WELCOME_IMAGE_URL,
+      caption,
       parse_mode: "HTML",
-      disable_web_page_preview: true,
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "Открыть курс",
-              web_app: { url: MINI_APP_URL },
-            },
-          ],
-        ],
-      },
+      reply_markup: replyMarkup,
     });
-  } catch (error) {
-    console.error("sendMessage failed:", error.message);
-    return res.status(502).json({ ok: false, error: "Could not send welcome message" });
+  } catch (photoError) {
+    // If Telegram cannot load the image, still deliver the welcome text and button.
+    console.error("sendPhoto failed, using text fallback:", photoError.message);
+
+    try {
+      await callTelegram("sendMessage", {
+        chat_id: chatId,
+        text: caption,
+        parse_mode: "HTML",
+        reply_markup: replyMarkup,
+        disable_web_page_preview: true,
+      });
+    } catch (messageError) {
+      console.error("sendMessage fallback failed:", messageError.message);
+      return res.status(502).json({
+        ok: false,
+        error: "Could not send the welcome card",
+      });
+    }
   }
 
   return res.status(200).json({ ok: true });
