@@ -970,7 +970,7 @@
     .hero-image {
       width: min(100%, 330px);
       height: auto;
-      aspect-ratio: 1284 / 2300;
+      aspect-ratio: 1284 / 2535;
       margin: 31px auto 0;
       border-radius: 42% 42% 7px 7px;
       background: #091b1a;
@@ -978,8 +978,9 @@
     .hero-image img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 50%;
+      object-fit: contain;
+      object-position: center;
+      background: #091b1a;
     }
     @media (max-width: 370px) {
       .hero-image {
@@ -1325,7 +1326,10 @@
     if (telegram) {
       telegram.ready();
       telegram.expand();
-      if (typeof telegram.disableVerticalSwipes === "function") {
+      if (
+        typeof telegram.disableVerticalSwipes === "function" &&
+        (typeof telegram.isVersionAtLeast !== "function" || telegram.isVersionAtLeast("7.7"))
+      ) {
         telegram.disableVerticalSwipes();
       }
       try {
