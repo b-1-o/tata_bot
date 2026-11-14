@@ -1019,6 +1019,63 @@
     }
     .language-option:focus-visible { outline-color: #e0ca93; outline-offset: 2px; }
 
+    /* First-visit language choice. Kept lightweight: no blur or animated backdrop. */
+    .language-gate {
+      position: fixed; inset: 0; z-index: 1000;
+      display: grid; place-items: center;
+      padding: 24px max(20px, env(safe-area-inset-left)) 24px max(20px, env(safe-area-inset-right));
+      background:
+        radial-gradient(ellipse 90% 55% at 50% 0%, rgba(54, 104, 91, .22), transparent 70%),
+        rgba(5, 17, 16, .97);
+    }
+    .language-gate[hidden] { display: none; }
+    body.language-gate-open { overflow: hidden; }
+    .language-gate-card {
+      width: min(100%, 390px); padding: 35px 25px 27px;
+      text-align: center; border: 1px solid rgba(202,174,112,.48);
+      border-radius: 25px;
+      background: linear-gradient(155deg, rgba(27,59,53,.98), rgba(10,29,27,.99));
+      box-shadow: 0 24px 70px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .language-gate-kicker {
+      color: #cfb77f; font-size: 9px; font-weight: 700;
+      letter-spacing: .22em;
+    }
+    .language-gate-title {
+      margin: 17px 0 9px; color: #f3efe3;
+      font: 500 clamp(36px, 9vw, 45px)/.98 var(--serif);
+      letter-spacing: -.025em;
+    }
+    .language-gate-title span {
+      display: block; margin-top: 7px; color: #d4c49e;
+      font-size: .58em; letter-spacing: 0;
+    }
+    .language-gate-copy {
+      margin: 15px auto 23px; max-width: 290px;
+      color: #b7c5ba; font-size: 11px; line-height: 1.8;
+    }
+    .language-gate-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .language-gate-choice {
+      min-width: 0; min-height: 76px; padding: 12px 8px;
+      display: grid; align-content: center; gap: 5px;
+      border: 1px solid rgba(202,174,112,.5); border-radius: 15px;
+      color: #f3efe3; background: linear-gradient(145deg, rgba(38,75,66,.9), rgba(17,44,40,.96));
+      cursor: pointer; transition: border-color .15s ease, background .15s ease;
+    }
+    .language-gate-choice:hover, .language-gate-choice:focus-visible {
+      border-color: #e1cc96; background: linear-gradient(145deg, #315c50, #193d36);
+    }
+    .language-gate-choice strong { font: 600 21px/1.1 var(--serif); }
+    .language-gate-choice span { color: #c1cbbb; font-size: 9px; letter-spacing: .08em; }
+    .language-gate-note {
+      display: block; margin-top: 19px; color: #8fa398;
+      font-size: 9px; line-height: 1.6;
+    }
+    @media (max-width: 370px) {
+      .language-gate-card { padding: 30px 18px 23px; }
+      .language-gate-choice { min-height: 70px; }
+    }
+
     /* Inline video slide uses native playback controls and loads only its metadata initially. */
     .gallery-video-frame {
       width: 100%; aspect-ratio: .59; overflow: hidden;
@@ -1530,6 +1587,35 @@
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <section class="language-gate" id="language-gate" role="dialog" aria-modal="true"
+    aria-labelledby="language-gate-title" hidden>
+    <div class="language-gate-card">
+      <span class="language-gate-kicker">TATA NAILS · COURSE</span>
+      <h2 class="language-gate-title" id="language-gate-title">
+        Выберите язык
+        <span>Choose your language</span>
+      </h2>
+      <p class="language-gate-copy">
+        Выберите язык, чтобы продолжить.<br>
+        Choose your language to continue.
+      </p>
+      <div class="language-gate-actions">
+        <button class="language-gate-choice" id="language-choice-ru" type="button" data-initial-language="ru">
+          <strong>Русский</strong>
+          <span>RUSSIAN</span>
+        </button>
+        <button class="language-gate-choice" type="button" data-initial-language="en">
+          <strong>English</strong>
+          <span>АНГЛИЙСКИЙ</span>
+        </button>
+      </div>
+      <span class="language-gate-note">
+        Вы сможете изменить язык позже в верхней части страницы.<br>
+        You can change it later at the top of the page.
+      </span>
+    </div>
+  </section>
+
   <dialog class="gallery-lightbox" id="gallery-lightbox" aria-label="Просмотр фотографии">
     <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Закрыть фотографию">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
@@ -1716,46 +1802,23 @@
       }
     };
 
-    function readTelegramUser() {
-      const directUser = telegram?.initDataUnsafe?.user;
-      if (directUser?.language_code) return directUser;
+    const LANGUAGE_STORAGE_KEY = "tataNailsLanguage";
 
-      const rawInitData = telegram?.initData ||
-        new URLSearchParams(window.location.search).get("tgWebAppData") || "";
-      if (rawInitData) {
-        try {
-          const rawUser = new URLSearchParams(rawInitData).get("user");
-          if (rawUser) return JSON.parse(rawUser);
-        } catch (error) {
-          console.warn("[Tata Nails] Could not parse Telegram initData user:", error);
-        }
+    function readSavedLanguage() {
+      const cookie = document.cookie.match(/(?:^|;\\s*)tataNailsLanguage=(ru|en)(?:;|$)/);
+      if (cookie) return cookie[1];
+
+      try {
+        const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+        if (saved === "ru" || saved === "en") return saved;
+      } catch (error) {
+        console.warn("[Tata Nails] Local language storage is unavailable:", error);
       }
-      return directUser || null;
+      return null;
     }
 
-    const telegramUser = readTelegramUser();
-    const telegramLanguage = telegramUser?.language_code;
-    const languageParam = new URLSearchParams(window.location.search).get("lang");
-    const browserLanguages = Array.isArray(navigator.languages) && navigator.languages.length
-      ? navigator.languages
-      : [navigator.language || "ru"];
-
-    function detectLanguage() {
-      // Prefer the current Telegram account language whenever Telegram provides it.
-      if (telegramLanguage) {
-        return String(telegramLanguage).toLowerCase().startsWith("en") ? "en" : "ru";
-      }
-
-      // The bot adds this per-user fallback to the inline and chat-menu Mini App URLs.
-      if (languageParam === "en" || languageParam === "ru") return languageParam;
-
-      // Outside Telegram, use the browser's preferred language.
-      return browserLanguages.some((language) =>
-        String(language).toLowerCase().startsWith("en")
-      ) ? "en" : "ru";
-    }
-
-    let currentLanguage = detectLanguage();
+    const savedLanguage = readSavedLanguage();
+    let currentLanguage = savedLanguage || "ru";
     let copy = translations[currentLanguage];
 
     function applyLanguage(language) {
@@ -1827,10 +1890,47 @@
       if (video) video.setAttribute("aria-label", copy.galleryVideoLabel);
     }
 
+    const languageGate = document.getElementById("language-gate");
+    const appPage = document.querySelector(".page");
+
+    function selectLanguage(language) {
+      currentLanguage = language === "en" ? "en" : "ru";
+      applyLanguage(currentLanguage);
+
+      // Keep both a first-party cookie and localStorage copy for Telegram WebView reliability.
+      try {
+        document.cookie = LANGUAGE_STORAGE_KEY + "=" + currentLanguage + "; Max-Age=31536000; Path=/; SameSite=Lax";
+      } catch (error) {
+        console.warn("[Tata Nails] Could not save the language cookie:", error);
+      }
+      try {
+        window.localStorage.setItem(LANGUAGE_STORAGE_KEY, currentLanguage);
+      } catch (error) {
+        console.warn("[Tata Nails] Could not save the language preference:", error);
+      }
+
+      languageGate.hidden = true;
+      appPage.inert = false;
+      document.body.classList.remove("language-gate-open");
+    }
+
     applyLanguage(currentLanguage);
 
+    if (savedLanguage) {
+      languageGate.hidden = true;
+    } else {
+      languageGate.hidden = false;
+      appPage.inert = true;
+      document.body.classList.add("language-gate-open");
+      document.getElementById("language-choice-ru").focus();
+    }
+
+    document.querySelectorAll("[data-initial-language]").forEach((button) => {
+      button.addEventListener("click", () => selectLanguage(button.dataset.initialLanguage));
+    });
+
     document.querySelectorAll(".language-option").forEach((button) => {
-      button.addEventListener("click", () => applyLanguage(button.dataset.language));
+      button.addEventListener("click", () => selectLanguage(button.dataset.language));
     });
 
     const PAYMENT_URL_RUB = "https://telegram.me/tribute/app?startapp=ЗАМЕНИ_НА_ССЫЛКУ_RUB";
