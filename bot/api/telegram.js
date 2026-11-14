@@ -119,7 +119,7 @@ module.exports = async function handler(req, res) {
     inline_keyboard: [
       [
         {
-          text: language === "en" ? "Open course" : "Открыть курс",
+          text: "Открыть курс / Open course",
           web_app: { url: miniAppUrl },
         },
       ],
