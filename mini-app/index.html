@@ -1462,6 +1462,8 @@
     const galleryNext = document.getElementById("gallery-next");
     const galleryCounter = document.getElementById("gallery-counter");
     const galleryDots = document.getElementById("gallery-dots");
+    galleryPrev.setAttribute("aria-label", copy.galleryPrevious);
+    galleryNext.setAttribute("aria-label", copy.galleryNext);
     let activeGalleryIndex = 0;
 
     gallerySlides.forEach((slide, index) => {
