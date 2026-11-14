@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f8f6ee">
+  <meta name="theme-color" content="#071b14">
   <meta name="description" content="Онлайн-курс по маникюру от Tata Nails. Программа обучения и варианты оплаты в рублях и долларах.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Tata Nails — курс по маникюру">
   <meta property="og:description" content="Внимание к деталям, продуманная техника и эстетика чистого маникюра.">
-  <meta property="og:image" content="https://b-1-o.github.io/tata/optimized/IMG_0288-840.webp">
+  <meta property="og:image" content="https://tata-course-miniapp.vercel.app/nails.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -301,6 +301,452 @@
       color: #e7e1ce; background: #102b22; border-top: 1px solid rgba(185,155,96,.48);
     }
     .footer strong { color: #d6bd82; }
+  
+    /* ─────────────────────────────────────────────────────────────
+       TATA NAILS · NOCTURNE EMERALD / CHAMPAGNE GOLD
+       Deep atmospheric gradients, restrained gold and glass surfaces.
+       ───────────────────────────────────────────────────────────── */
+    :root {
+      color-scheme: dark;
+      --ink: #f1eee4;
+      --muted: #bac7bc;
+      --pink: #c8ad73;
+      --pink-deep: #d7bd82;
+      --pink-soft: #18372b;
+      --line: rgba(202, 174, 112, .25);
+      --cream: #0c241a;
+      --paper: #071b14;
+      --forest-950: #061710;
+      --forest-900: #081f17;
+      --forest-850: #0b281d;
+      --forest-800: #103426;
+      --forest-700: #174634;
+      --gold: #c8ad73;
+      --gold-bright: #e0cb97;
+      --ivory: #f3efe3;
+      --sage: #b9c8bd;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--forest-950);
+    }
+
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 90% 48% at 50% -12%, rgba(44, 105, 73, .42), transparent 72%),
+        radial-gradient(ellipse 70% 55% at 100% 34%, rgba(24, 79, 55, .28), transparent 72%),
+        radial-gradient(ellipse 70% 48% at 0% 76%, rgba(21, 66, 47, .26), transparent 72%),
+        linear-gradient(158deg, #071b14 0%, #0a241a 42%, #071a13 100%);
+      background-attachment: fixed;
+    }
+
+    .page {
+      position: relative;
+      isolation: isolate;
+      background: transparent;
+      box-shadow: 0 0 110px rgba(0, 0, 0, .22);
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      opacity: .38;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(199, 171, 109, .10) 0 1px, transparent 1.7px),
+        radial-gradient(circle at 78% 32%, rgba(216, 196, 145, .08) 0 1px, transparent 1.8px);
+      background-size: 46px 46px, 67px 67px;
+      mask-image: linear-gradient(to bottom, #000, transparent 68%);
+    }
+
+    .topbar {
+      position: relative;
+      z-index: 5;
+      color: var(--ivory);
+      background: rgba(7, 27, 20, .82);
+      border-bottom: 1px solid rgba(202, 174, 112, .25);
+      box-shadow: 0 10px 38px rgba(0, 0, 0, .14);
+      backdrop-filter: blur(22px) saturate(135%);
+      -webkit-backdrop-filter: blur(22px) saturate(135%);
+    }
+
+    .brand-mark {
+      color: var(--gold-bright);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 54%),
+        linear-gradient(145deg, #173d2c, #0b2419);
+      border: 1px solid rgba(211, 185, 124, .72);
+      box-shadow:
+        0 0 0 3px rgba(195, 164, 99, .06),
+        0 7px 24px rgba(0,0,0,.24),
+        inset 0 1px 0 rgba(255,255,255,.12);
+    }
+
+    .brand-name strong {
+      color: #f3efe3;
+      text-shadow: 0 2px 18px rgba(212, 185, 124, .12);
+    }
+
+    .brand-name span {
+      color: #c5ad78;
+    }
+
+    .online-tag {
+      color: #d7c28d;
+      border: 1px solid rgba(202, 174, 112, .48);
+      background: linear-gradient(120deg, rgba(20, 56, 39, .88), rgba(10, 33, 23, .88));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 4px 15px rgba(0,0,0,.12);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding-top: 42px;
+      padding-bottom: 42px;
+      background:
+        radial-gradient(ellipse 88% 54% at 85% 8%, rgba(48, 117, 78, .35), transparent 68%),
+        radial-gradient(ellipse 75% 58% at 8% 94%, rgba(22, 75, 51, .3), transparent 72%),
+        linear-gradient(145deg, #0b281d 0%, #0d3022 40%, #071d15 100%);
+      border-bottom: 1px solid rgba(202, 174, 112, .19);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      width: 380px;
+      height: 380px;
+      right: -190px;
+      top: 22px;
+      border: 1px solid rgba(211, 185, 124, .25);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 1px rgba(211,185,124,.035),
+        0 0 0 26px rgba(211,185,124,.035),
+        0 0 0 54px rgba(211,185,124,.025),
+        0 0 90px rgba(53, 127, 82, .2);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      pointer-events: none;
+      opacity: .2;
+      background:
+        linear-gradient(rgba(221, 204, 159, .12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(221, 204, 159, .12) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(ellipse at 95% 12%, #000, transparent 72%);
+    }
+
+    .hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow, .section-label {
+      color: #d1b77d;
+    }
+
+    .eyebrow::before {
+      background: linear-gradient(90deg, transparent, #d7bd82);
+      box-shadow: 0 0 10px rgba(215, 189, 130, .38);
+    }
+
+    h1 {
+      color: #f4f0e5;
+      text-shadow: 0 8px 34px rgba(0,0,0,.22);
+    }
+
+    h1 em, h2 em {
+      color: #d3b879;
+      text-shadow: 0 0 26px rgba(198, 168, 105, .14);
+    }
+
+    .hero-copy, .section-intro {
+      color: #bfcbc1;
+    }
+
+    .hero-image {
+      height: 318px;
+      margin-top: 31px;
+      background: #0a2118;
+      border: 1px solid rgba(218, 194, 137, .65);
+      border-radius: 46% 46% 8px 8px;
+      box-shadow:
+        0 24px 58px rgba(0,0,0,.34),
+        0 0 0 7px rgba(193, 165, 104, .055),
+        0 0 46px rgba(57, 119, 78, .13);
+    }
+
+    .hero-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .hero-image img {
+      object-fit: cover;
+      object-position: center 44%;
+      filter: saturate(.92) contrast(1.035);
+    }
+
+    .image-caption {
+      background: linear-gradient(transparent, rgba(4, 18, 12, .82));
+      color: #f1ead8;
+      text-shadow: 0 1px 7px rgba(0,0,0,.55);
+    }
+
+    .float-note {
+      color: #f1eee4;
+      background: linear-gradient(135deg, rgba(22, 57, 40, .94), rgba(8, 29, 20, .94));
+      border: 1px solid rgba(207, 179, 116, .62);
+      box-shadow:
+        0 14px 35px rgba(0,0,0,.3),
+        inset 0 1px 0 rgba(255,255,255,.09);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .float-note .note-icon {
+      color: #e0ca93;
+      background: linear-gradient(145deg, #254c37, #10291d);
+      border: 1px solid rgba(211, 185, 124, .43);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .float-note strong { color: #f0eadb; }
+    .float-note small, .hero-bottom small { color: #b6c4b9; }
+
+    .text-arrow {
+      color: #e0ca93;
+      text-shadow: 0 0 16px rgba(220, 195, 137, .12);
+    }
+
+    .text-arrow svg { color: #d4b878; }
+
+    .section {
+      position: relative;
+      background:
+        radial-gradient(ellipse 80% 60% at 95% 0%, rgba(39, 91, 62, .18), transparent 70%),
+        linear-gradient(165deg, #0a241a 0%, #0b281d 54%, #081e16 100%);
+      border-bottom: 1px solid rgba(202, 174, 112, .12);
+    }
+
+    #program::before, #payment::before {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      top: 14%;
+      right: -150px;
+      border: 1px solid rgba(202, 174, 112, .13);
+      border-radius: 50%;
+      box-shadow: 0 0 0 20px rgba(202,174,112,.025), 0 0 58px rgba(30,91,58,.15);
+      pointer-events: none;
+    }
+
+    h2 {
+      color: #f0ecdf;
+      text-shadow: 0 5px 24px rgba(0,0,0,.18);
+    }
+
+    .modules {
+      border-top-color: rgba(202, 174, 112, .35);
+    }
+
+    .module {
+      position: relative;
+      border-bottom-color: rgba(202, 174, 112, .22);
+      transition: background .24s ease, padding .24s ease;
+    }
+
+    .module:hover {
+      background: linear-gradient(90deg, rgba(202,174,112,.055), transparent);
+      padding-left: 9px;
+    }
+
+    .module-number {
+      color: #d0b477;
+      text-shadow: 0 0 16px rgba(202, 174, 112, .16);
+    }
+
+    .module h3 {
+      color: #e9e5d9;
+    }
+
+    .module p {
+      color: #adbbb1;
+    }
+
+    .audience {
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(202,174,112,.09), transparent 55%),
+        linear-gradient(130deg, rgba(24, 62, 43, .92), rgba(12, 37, 26, .96));
+      border: 1px solid rgba(202, 174, 112, .32);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.055), 0 16px 34px rgba(0,0,0,.13);
+    }
+
+    .audience-item svg { color: #d2b778; }
+
+    .audience-item strong { color: #eee9da; }
+
+    .audience-item small { color: #b4c1b6; }
+
+    .quote {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% -15%, rgba(69, 132, 87, .38), transparent 65%),
+        linear-gradient(125deg, #102f22, #17412e 48%, #092117);
+      border: 1px solid rgba(211, 185, 124, .58);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.07),
+        0 18px 48px rgba(0,0,0,.22);
+    }
+
+    .quote::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(211,185,124,.18);
+      pointer-events: none;
+    }
+
+    .quote-mark { color: #d8bf86; }
+
+    .quote p { color: #f1ecdf; }
+
+    .pricing {
+      background:
+        radial-gradient(ellipse 90% 45% at 50% 0%, rgba(39, 96, 63, .25), transparent 74%),
+        linear-gradient(165deg, #091f17, #0c2a1e 52%, #071b14);
+    }
+
+    .price-card {
+      background:
+        linear-gradient(145deg, rgba(28, 66, 47, .88), rgba(10, 34, 24, .97));
+      border: 1px solid rgba(202, 174, 112, .3);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.075),
+        0 16px 32px rgba(0,0,0,.2);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .price-card:hover {
+      border-color: rgba(224, 201, 147, .82);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.1),
+        0 20px 40px rgba(0,0,0,.27),
+        0 0 28px rgba(183, 151, 83, .1);
+    }
+
+    .price-card.featured {
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(202,174,112,.12), transparent 58%),
+        linear-gradient(145deg, #1a4933, #0b2a1e 76%);
+      border-color: rgba(215, 189, 130, .8);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.11),
+        0 18px 38px rgba(0,0,0,.26),
+        0 0 32px rgba(185, 151, 81, .075);
+    }
+
+    .currency-symbol {
+      color: #e0ca93;
+      background: linear-gradient(145deg, #244e36, #112b1e);
+      border: 1px solid rgba(211,185,124,.65);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .currency-code, .currency-index { color: #d4b97e; }
+    .currency-name { color: #f0ecdf; }
+    .currency-rule { background: linear-gradient(90deg, rgba(210,183,120,.78), rgba(210,183,120,.13)); }
+    .currency-copy { color: #b6c4b9; }
+
+    .buy-button {
+      position: relative;
+      overflow: hidden;
+      color: #10271c;
+      background: linear-gradient(115deg, #b99b60, #e1cc96 48%, #b99b60);
+      border: 1px solid rgba(239, 222, 177, .78);
+      box-shadow:
+        0 9px 22px rgba(0,0,0,.24),
+        0 0 22px rgba(204, 174, 109, .12),
+        inset 0 1px 0 rgba(255,255,255,.42);
+      letter-spacing: .035em;
+    }
+
+    .buy-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,.24) 48%, transparent 72%);
+      transform: translateX(-130%);
+      transition: transform .65s ease;
+      pointer-events: none;
+    }
+
+    .buy-button:hover::before { transform: translateX(130%); }
+    .buy-button:hover { background: linear-gradient(115deg, #c9ad73, #ecd9a6 48%, #c9ad73); }
+    .buy-button.secondary {
+      color: #e2cc95;
+      background: linear-gradient(145deg, rgba(30,72,49,.72), rgba(9,31,21,.94));
+      border: 1px solid rgba(208, 180, 116, .7);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .buy-button.secondary:hover {
+      color: #10271c;
+      background: linear-gradient(115deg, #b99b60, #e1cc96);
+    }
+
+    .payment-note { color: #aebdb2; }
+    .payment-note svg { color: #d1b67a; }
+
+    .toast {
+      color: #f4efdf;
+      background: rgba(8, 31, 22, .97);
+      border: 1px solid rgba(202,174,112,.52);
+      box-shadow: 0 18px 42px rgba(0,0,0,.34);
+      backdrop-filter: blur(18px);
+    }
+
+    .footer {
+      color: #c1cbbf;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(49, 107, 70, .24), transparent 72%),
+        linear-gradient(140deg, #061710, #0a2419);
+      border-top: 1px solid rgba(202,174,112,.28);
+    }
+
+    .footer strong {
+      color: #d9c28d;
+      text-shadow: 0 0 22px rgba(209,181,115,.15);
+    }
+
+    @media (max-width: 370px) {
+      .hero { padding-top: 35px; }
+      .hero-image { height: 270px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
   </style>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
