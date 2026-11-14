@@ -1034,6 +1034,186 @@
     .gallery-video-slide figcaption span:first-child { color: #d5bd85; }
 
     /* Telegram's official 7.7+ API disables drag-to-collapse while preserving the header close control. */
+  
+    /* Framed portrait card for the signature work — preserve the original image ratio. */
+    .hero-image-card {
+      position: relative;
+      width: min(100%, 310px);
+      margin: 30px auto 0;
+      padding: 0;
+    }
+    .hero-image-frame {
+      position: relative;
+      overflow: hidden;
+      padding: 10px;
+      border: 1px solid rgba(211,185,124,.78);
+      border-radius: 168px 168px 13px 13px;
+      background: linear-gradient(150deg, #1a3933 0%, #102522 48%, #091b1a 100%);
+      box-shadow:
+        0 24px 55px rgba(0,0,0,.36),
+        0 0 0 5px rgba(193,165,104,.045),
+        inset 0 1px 0 rgba(255,255,255,.1);
+    }
+    .hero-image-frame::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border: 1px solid rgba(224,201,147,.22);
+      border-radius: 163px 163px 9px 9px;
+      pointer-events: none;
+    }
+    .hero-card-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 8px 13px;
+      color: #d7c28d;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .18em;
+    }
+    .hero-card-topline span:last-child {
+      color: #8f9f94;
+      font-family: var(--serif);
+      font-size: 11px;
+      font-weight: 400;
+    }
+    .hero-image-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      aspect-ratio: 1284 / 2535;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 150px 150px 5px 5px;
+      background: #091b1a;
+    }
+    .hero-image-frame .image-caption {
+      inset: auto 10px 10px;
+      z-index: 2;
+      padding: 30px 14px 12px;
+      border-radius: 0 0 5px 5px;
+      background: linear-gradient(transparent, rgba(4,17,16,.88));
+      color: #f1ead8;
+      font-size: 8px;
+      letter-spacing: .16em;
+    }
+    .hero-image-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 12px 7px 0;
+      padding: 0 6px;
+    }
+    .hero-image-footer-copy { display: grid; gap: 3px; }
+    .hero-image-footer-copy strong {
+      color: #e9e2cf;
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: .02em;
+    }
+    .hero-image-footer-copy small {
+      color: #9ead9f;
+      font-size: 9px;
+      line-height: 1.5;
+    }
+    .hero-image-index {
+      color: #d5bd85;
+      font-family: var(--serif);
+      font-size: 14px;
+      letter-spacing: .1em;
+    }
+    .float-note {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      z-index: 3;
+      width: fit-content;
+      max-width: calc(100% - 8px);
+      margin: -19px 0 0 7px;
+    }
+    .program-author {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 5px;
+      margin: 0 0 26px;
+      color: #aebdb2;
+      font-size: 11px;
+      line-height: 1.65;
+    }
+    .program-author strong {
+      color: #dec68e;
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: .025em;
+    }
+    .practical-list {
+      display: grid;
+      gap: 8px;
+      margin: 8px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .practical-list li {
+      position: relative;
+      padding-left: 16px;
+      color: #adbbb1;
+      font-size: 10px;
+      line-height: 1.65;
+    }
+    .practical-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .68em;
+      width: 5px;
+      height: 5px;
+      border: 1px solid #c8ad73;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    /* Scroll reveal: fade and move on entry, reverse gently on exit. */
+    @media (prefers-reduced-motion: no-preference) {
+      body.motion-ready .reveal-item {
+        opacity: 0;
+        transform: translate3d(0, 14px, 0);
+        transition:
+          opacity .48s cubic-bezier(.2,.65,.25,1),
+          transform .48s cubic-bezier(.2,.65,.25,1);
+        transition-delay: var(--reveal-delay, 0ms);
+      }
+      body.motion-ready .hero-image-card.reveal-item {
+        transform: translate3d(0, 18px, 0) scale(.985);
+      }
+      body.motion-ready .reveal-item.is-visible {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      .hero-image-card {
+        transition: transform .28s ease;
+      }
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .hero-image-card:hover {
+        transform: translateY(-3px);
+      }
+    }
+    @media (max-width: 370px) {
+      .hero-image-card { width: min(100%, 286px); margin-top: 25px; }
+      .hero-image-frame { padding: 8px; }
+      .hero-image-footer-copy strong { font-size: 16px; }
+      .float-note { margin-left: 0; }
+    }
+    @media (min-width: 520px) {
+      .hero-image-card { width: min(100%, 325px); }
+    }
   </style>
   <script src="https://telegram.org/js/telegram-web-app.js?65"></script>
 </head>
@@ -1062,13 +1242,29 @@
       <span class="eyebrow" data-i18n="eyebrow">TATA NAILS · ОБУЧЕНИЕ</span>
       <h1><span data-i18n="heroTitleLead">Искусство маникюра —</span> <em data-i18n="heroTitleAccent">в деталях.</em></h1>
       <p class="hero-copy" data-i18n="heroCopy">Онлайн-курс для тех, кто хочет глубже разобраться в технике маникюра, выстроить понятную последовательность работы и уделять внимание каждому этапу.</p>
-      <div class="hero-image">
-        <img
-          src="./mainnail.jpg"
-          alt="Главная работа Tata Nails"
-          data-i18n-attr="alt:heroImageAlt"
-          width="1284" height="2535" fetchpriority="high" decoding="async">
-        <div class="image-caption"><span>THE ART OF DETAIL</span><span>TATA NAILS</span></div>
+      <div class="hero-image-card">
+        <div class="hero-image-frame">
+          <div class="hero-card-topline">
+            <span data-i18n="heroImageKicker">SELECTED WORK</span>
+            <span>01 / TATA</span>
+          </div>
+          <img
+            src="./mainnail.jpg"
+            alt="Пример работы Tata Nails"
+            data-i18n-attr="alt:heroImageAlt"
+            width="1284" height="2535" fetchpriority="high" decoding="async">
+          <div class="image-caption">
+            <span data-i18n="heroImageCaption">THE ART OF DETAIL</span>
+            <span>TATA NAILS</span>
+          </div>
+        </div>
+        <div class="hero-image-footer">
+          <span class="hero-image-footer-copy">
+            <strong data-i18n="heroImageFooterTitle">Форма. Точность. Эстетика.</strong>
+            <small data-i18n="heroImageFooterText">Подход Tata Nails к деталям</small>
+          </span>
+          <span class="hero-image-index">TN / 01</span>
+        </div>
       </div>
       <div class="float-note">
         <span class="note-icon" aria-hidden="true">
@@ -1087,70 +1283,71 @@
     </section>
 
     <section class="section" id="program">
-      <div class="section-label" data-i18n="programLabel">01 / ПРОГРАММА КУРСА</div>
-      <h2><span data-i18n="programTitleLead">Верхние формы —</span> <em data-i18n="programTitleAccent">от А до Я.</em></h2>
-      <p class="section-intro" data-i18n="programIntro">Подробная программа по работе с верхними формами, моделированию и дизайну. От салонных и арочных техник до аква-дизайнов и французских техник — с расширенной палитрой оттенков.</p>
+      <div class="section-label" data-i18n="programLabel">01 / ПРОГРАММА</div>
+      <h2><span data-i18n="programHeadingLead">Программа онлайн-курса</span> <em data-i18n="programHeadingAccent">«Верхние формы»</em></h2>
+      <p class="program-author"><span data-i18n="programAuthorPrefix">Автор —</span> <strong data-i18n="programAuthorName">Tatev Hovhannisyan</strong></p>
 
       <div class="modules">
         <article class="module">
           <span class="module-number">01</span>
           <div>
-            <h3 data-i18n="moduleTitle1">Верхние формы от А до Я</h3>
-            <p data-i18n="moduleDesc1">Полный разбор работы с верхними формами — от основных принципов до точного построения формы и аккуратного результата.</p>
+            <h3 data-i18n="moduleTitle1">Материалы и инструменты</h3>
+            <p data-i18n="moduleDesc1">Выбор гелей, баз, кистей и верхних форм.</p>
           </div>
         </article>
         <article class="module">
           <span class="module-number">02</span>
           <div>
-            <h3 data-i18n="moduleTitle2">Салонное моделирование</h3>
-            <p data-i18n="moduleDesc2">Эстетика салонной формы, гармоничные пропорции и чистый, аккуратный вид готовой работы.</p>
+            <h3 data-i18n="moduleTitle2">Подготовка ногтей</h3>
+            <p data-i18n="moduleDesc2">Маникюр, подготовка пластины и работа с тонкими и мягкими ногтями.</p>
           </div>
         </article>
         <article class="module">
           <span class="module-number">03</span>
           <div>
-            <h3 data-i18n="moduleTitle3">Арочное моделирование</h3>
-            <p data-i18n="moduleDesc3">Работа с архитектурой ногтя, выразительной аркой и сбалансированным силуэтом.</p>
+            <h3 data-i18n="moduleTitle3">Подбор и постановка форм</h3>
+            <p data-i18n="moduleDesc3">Правильный размер, подрезка и угол установки.</p>
           </div>
         </article>
         <article class="module">
           <span class="module-number">04</span>
           <div>
-            <h3 data-i18n="moduleTitle4">Аква-дизайны</h3>
-            <p data-i18n="moduleDesc4">Декоративные решения с эффектом глубины, прозрачности и многослойности.</p>
+            <h3 data-i18n="moduleTitle4">Выкладка материала</h3>
+            <p data-i18n="moduleDesc4">Построение архитектуры, чистая отпечатка без затёков и лишней толщины.</p>
           </div>
         </article>
-        <article class="module">
+        <article class="module module-practical">
           <span class="module-number">05</span>
           <div>
-            <h3 data-i18n="moduleTitle5">Выкладной френч</h3>
-            <p data-i18n="moduleDesc5">Выразительная линия улыбки, сочетание оттенков и продуманная композиция свободного края.</p>
+            <h3 data-i18n="moduleTitle5">Практические уроки</h3>
+            <ul class="practical-list">
+              <li data-i18n="practicalLesson1">Короткий квадрат + френч.</li>
+              <li data-i18n="practicalLesson2">Миндаль + покрытие под кутикулой.</li>
+              <li data-i18n="practicalLesson3">Длинный арочный квадрат + френч.</li>
+            </ul>
           </div>
         </article>
         <article class="module">
           <span class="module-number">06</span>
           <div>
-            <h3 data-i18n="moduleTitle6">Рисованный френч</h3>
-            <p data-i18n="moduleDesc6">Тонкие линии, точность рисунка и современные цветовые вариации французского дизайна.</p>
+            <h3 data-i18n="moduleTitle6">Минимальный опил</h3>
+            <p data-i18n="moduleDesc6">Симметрия, тонкий торец и обработка изнутри.</p>
           </div>
         </article>
-      </div>
-
-      <div class="audience">
-        <div class="audience-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 19.5 15.8 4.8a2.1 2.1 0 0 1 3.1 2.8L7.1 22H4v-2.5Z"/>
-            <path d="m13.8 7.2 3.2 2.6M4 19.5l3.1 2.5M12 20h8"/>
-          </svg>
-          <div><strong data-i18n="audience1Title">Расширенная палитра</strong><small data-i18n="audience1Desc">Больше оттенков и цветовых сочетаний для разных техник и дизайнов.</small></div>
-        </div>
-        <div class="audience-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 3.2c1.6 2.9 4.1 5.4 7 7-2.9 1.6-5.4 4.1-7 7-1.6-2.9-4.1-5.4-7-7 2.9-1.6 5.4-4.1 7-7Z"/>
-            <path d="M12 8.2v8.1M8 12.2h8"/>
-          </svg>
-          <div><strong data-i18n="audience2Title">Эстетика в деталях</strong><small data-i18n="audience2Desc">От сдержанной классики до выразительных цветных акцентов.</small></div>
-        </div>
+        <article class="module">
+          <span class="module-number">07</span>
+          <div>
+            <h3 data-i18n="moduleTitle7">Коррекция и ремонт</h3>
+            <p data-i18n="moduleDesc7">Восстановление углов, ремонт и безопасное снятие.</p>
+          </div>
+        </article>
+        <article class="module">
+          <span class="module-number">08</span>
+          <div>
+            <h3 data-i18n="moduleTitle8">Разбор ошибок</h3>
+            <p data-i18n="moduleDesc8">Причины отслоек, пузырей и затёков. Как работать быстрее без потери качества.</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -1350,6 +1547,33 @@
         languageSelector: "Выбор языка",
         galleryVideo: "ВИДЕО",
         galleryVideoLabel: "Видео-пример работы Tata Nails",
+        heroImageKicker: "ИЗБРАННАЯ РАБОТА",
+        heroImageCaption: "ИСКУССТВО ДЕТАЛИ",
+        heroImageFooterTitle: "Форма. Точность. Эстетика.",
+        heroImageFooterText: "Подход Tata Nails к деталям",
+        programHeadingLead: "Программа онлайн-курса",
+        programHeadingAccent: "«Верхние формы»",
+        programAuthorPrefix: "Автор —",
+        programAuthorName: "Tatev Hovhannisyan",
+        moduleTitle1: "Материалы и инструменты",
+        moduleDesc1: "Выбор гелей, баз, кистей и верхних форм.",
+        moduleTitle2: "Подготовка ногтей",
+        moduleDesc2: "Маникюр, подготовка пластины и работа с тонкими и мягкими ногтями.",
+        moduleTitle3: "Подбор и постановка форм",
+        moduleDesc3: "Правильный размер, подрезка и угол установки.",
+        moduleTitle4: "Выкладка материала",
+        moduleDesc4: "Построение архитектуры, чистая отпечатка без затёков и лишней толщины.",
+        moduleTitle5: "Практические уроки",
+        practicalLesson1: "Короткий квадрат + френч.",
+        practicalLesson2: "Миндаль + покрытие под кутикулой.",
+        practicalLesson3: "Длинный арочный квадрат + френч.",
+        moduleTitle6: "Минимальный опил",
+        moduleDesc6: "Симметрия, тонкий торец и обработка изнутри.",
+        moduleTitle7: "Коррекция и ремонт",
+        moduleDesc7: "Восстановление углов, ремонт и безопасное снятие.",
+        moduleTitle8: "Разбор ошибок",
+        moduleDesc8: "Причины отслоек, пузырей и затёков. Как работать быстрее без потери качества.",
+
         onlineTag: "ОНЛАЙН-КУРС",
         eyebrow: "TATA NAILS · ОБУЧЕНИЕ",
         heroTitleLead: "Искусство маникюра —",
@@ -1360,27 +1584,7 @@
         floatSmall: "Внимание к форме, технике и деталям",
         heroBottom: "ОНЛАЙН · В УДОБНОМ ТЕМПЕ",
         programLink: "Программа курса",
-        programLabel: "01 / ПРОГРАММА КУРСА",
-        programTitleLead: "Верхние формы —",
-        programTitleAccent: "от А до Я.",
-        programIntro: "Подробная программа по работе с верхними формами, моделированию и дизайну. От салонных и арочных техник до аква-дизайнов и французских техник — с расширенной палитрой оттенков.",
-        moduleTitle1: "Верхние формы от А до Я",
-        moduleDesc1: "Полный разбор работы с верхними формами — от основных принципов до точного построения формы и аккуратного результата.",
-        moduleTitle2: "Салонное моделирование",
-        moduleDesc2: "Эстетика салонной формы, гармоничные пропорции и чистый, аккуратный вид готовой работы.",
-        moduleTitle3: "Арочное моделирование",
-        moduleDesc3: "Работа с архитектурой ногтя, выразительной аркой и сбалансированным силуэтом.",
-        moduleTitle4: "Аква-дизайны",
-        moduleDesc4: "Декоративные решения с эффектом глубины, прозрачности и многослойности.",
-        moduleTitle5: "Выкладной френч",
-        moduleDesc5: "Выразительная линия улыбки, сочетание оттенков и продуманная композиция свободного края.",
-        moduleTitle6: "Рисованный френч",
-        moduleDesc6: "Тонкие линии, точность рисунка и современные цветовые вариации французского дизайна.",
-        audience1Title: "Расширенная палитра",
-        audience1Desc: "Больше оттенков и цветовых сочетаний для разных техник и дизайнов.",
-        audience2Title: "Эстетика в деталях",
-        audience2Desc: "От сдержанной классики до выразительных цветных акцентов.",
-        galleryLabel: "02 / ГАЛЕРЕЯ РАБОТ",
+        programLabel: "01 / ПРОГРАММА КУРСА",        galleryLabel: "02 / ГАЛЕРЕЯ РАБОТ",
         galleryTitleLead: "Работы в",
         galleryTitleAccent: "деталях.",
         galleryIntro: "Примеры моделирования и дизайна ногтей. Листайте галерею, чтобы рассмотреть каждую работу.",
@@ -1422,6 +1626,33 @@
         languageSelector: "Choose language",
         galleryVideo: "VIDEO",
         galleryVideoLabel: "Tata Nails work video",
+        heroImageKicker: "FEATURED WORK",
+        heroImageCaption: "THE ART OF DETAIL",
+        heroImageFooterTitle: "Shape. Precision. Aesthetics.",
+        heroImageFooterText: "Tata Nails' attention to detail",
+        programHeadingLead: "Online Course Program",
+        programHeadingAccent: "“Dual Forms”",
+        programAuthorPrefix: "Created by",
+        programAuthorName: "Tatev Hovhannisyan",
+        moduleTitle1: "Materials and Tools",
+        moduleDesc1: "Choosing gels, base products, brushes and dual forms.",
+        moduleTitle2: "Nail Preparation",
+        moduleDesc2: "Manicure, nail plate preparation, and working with thin, soft nails.",
+        moduleTitle3: "Choosing and Fitting Dual Forms",
+        moduleDesc3: "Selecting the correct size, trimming the forms and setting the right angle.",
+        moduleTitle4: "Product Application",
+        moduleDesc4: "Building nail architecture and achieving a clean imprint without flooding or excess thickness.",
+        moduleTitle5: "Practical Lessons",
+        practicalLesson1: "Short square + French.",
+        practicalLesson2: "Almond + close-to-cuticle application.",
+        practicalLesson3: "Long arched square + French.",
+        moduleTitle6: "Minimal Filing",
+        moduleDesc6: "Symmetry, a thin free edge and finishing the underside.",
+        moduleTitle7: "Correction and Repair",
+        moduleDesc7: "Restoring corners, repairs and safe product removal.",
+        moduleTitle8: "Troubleshooting",
+        moduleDesc8: "Understanding lifting, bubbles and product flooding — and how to work faster without compromising quality.",
+
         onlineTag: "ONLINE COURSE",
         eyebrow: "TATA NAILS · EDUCATION",
         heroTitleLead: "The art of nail design —",
@@ -1432,27 +1663,7 @@
         floatSmall: "A focus on shape, technique and detail",
         heroBottom: "ONLINE · LEARN AT YOUR OWN PACE",
         programLink: "Course program",
-        programLabel: "01 / COURSE PROGRAM",
-        programTitleLead: "Dual forms —",
-        programTitleAccent: "from A to Z.",
-        programIntro: "A detailed program covering dual forms, nail modeling and design. From salon and arched techniques to aqua designs and French styles, with an expanded color palette.",
-        moduleTitle1: "Dual Forms from A to Z",
-        moduleDesc1: "A complete look at working with dual forms, from core principles to precise shaping and a refined finish.",
-        moduleTitle2: "Salon Nail Modeling",
-        moduleDesc2: "Salon-ready shapes, balanced proportions and a clean, polished result.",
-        moduleTitle3: "Arched Nail Modeling",
-        moduleDesc3: "Nail architecture, a defined arch and a beautifully balanced silhouette.",
-        moduleTitle4: "Aqua Designs",
-        moduleDesc4: "Decorative techniques that create depth, transparency and layered effects.",
-        moduleTitle5: "Sculpted French",
-        moduleDesc5: "A defined smile line, thoughtful color combinations and a carefully shaped free edge.",
-        moduleTitle6: "Painted French",
-        moduleDesc6: "Fine lines, precise detailing and modern color variations on the classic French design.",
-        audience1Title: "Expanded Color Palette",
-        audience1Desc: "More shades and color combinations for different techniques and designs.",
-        audience2Title: "Beauty in the Details",
-        audience2Desc: "From understated classics to expressive pops of color.",
-        galleryLabel: "02 / WORK GALLERY",
+        programLabel: "01 / COURSE PROGRAM",        galleryLabel: "02 / WORK GALLERY",
         galleryTitleLead: "Every detail,",
         galleryTitleAccent: "beautifully made.",
         galleryIntro: "Examples of nail modeling and design. Swipe through the gallery to explore each look.",
@@ -1749,6 +1960,35 @@
     lightbox.addEventListener("click", (event) => {
       if (event.target === lightbox) lightbox.close();
     });
-  </script>
+  
+    // Enter/exit reveals use only opacity and transform. Reduced-motion users see static content.
+    const prefersReducedMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealTargets = document.querySelectorAll(
+      ".hero .eyebrow, .hero h1, .hero-copy, .hero-image-card, .float-note, .hero-bottom, " +
+      "#program > .section-label, #program > h2, #program > .program-author, #program .module, " +
+      "#gallery > .section-label, #gallery > h2, #gallery > .section-intro, #gallery .gallery-toolbar, " +
+      "#gallery .gallery-slide, #gallery .gallery-dots, #gallery .gallery-hint, " +
+      ".quote, .pricing-head, .price-card, .payment-note, .footer"
+    );
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealTargets.forEach((element) => element.classList.add("is-visible"));
+    } else {
+      revealTargets.forEach((element, index) => {
+        element.classList.add("reveal-item");
+        if (element.matches(".module, .gallery-slide, .price-card")) {
+          element.style.setProperty("--reveal-delay", ((index % 4) * 45) + "ms");
+        }
+      });
+      document.body.classList.add("motion-ready");
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        });
+      }, { threshold: 0.08, rootMargin: "0px 0px -7% 0px" });
+      revealTargets.forEach((element) => revealObserver.observe(element));
+    }
+</script>
 </body>
 </html>
