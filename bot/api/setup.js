@@ -75,6 +75,12 @@ module.exports = async function handler(req, res) {
     });
     results.menuButton = "configured";
 
+    await telegram("setMyName", {
+      name: "Tata Nails Bot",
+      language_code: "ru",
+    });
+    results.name = "configured";
+
     await telegram("setMyCommands", {
       commands: [
         { command: "start", description: "Открыть курс по маникюру" },
