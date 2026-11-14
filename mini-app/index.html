@@ -1741,12 +1741,13 @@
       : [navigator.language || "ru"];
 
     function detectLanguage() {
-      if (languageParam === "en" || languageParam === "ru") return languageParam;
-
-      // A Telegram language code has priority. Unsupported Telegram languages fall back to Russian.
+      // Prefer the current Telegram account language whenever Telegram provides it.
       if (telegramLanguage) {
         return String(telegramLanguage).toLowerCase().startsWith("en") ? "en" : "ru";
       }
+
+      // The bot adds this per-user fallback to the inline and chat-menu Mini App URLs.
+      if (languageParam === "en" || languageParam === "ru") return languageParam;
 
       // Outside Telegram, use the browser's preferred language.
       return browserLanguages.some((language) =>
