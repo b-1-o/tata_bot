@@ -1076,7 +1076,7 @@
       .language-gate-choice { min-height: 70px; }
     }
 
-    /* Inline video slide uses native playback controls and loads only its metadata initially. */
+    /* Silent inline motion: autoplay only while its carousel slide is active. */
     .gallery-video-frame {
       width: 100%; aspect-ratio: .59; overflow: hidden;
       border: 1px solid rgba(211,185,124,.56);
@@ -1502,10 +1502,11 @@
               class="gallery-video"
               src="./IMG_9320.mp4"
               poster="./mainnail.jpg"
-              controls
+              autoplay
+              loop
               muted
               playsinline
-              preload="metadata"
+              preload="none"
               aria-label="Видео Tata Nails"
               data-i18n-attr="aria-label:galleryVideoLabel">
             </video>
@@ -1882,12 +1883,6 @@
         video.muted = true;
         video.defaultMuted = true;
         video.volume = 0;
-        video.addEventListener("volumechange", () => {
-          if (!video.muted || video.volume !== 0) {
-            video.muted = true;
-            video.volume = 0;
-          }
-        });
       }
     }
 
@@ -2018,6 +2013,14 @@
           if (video && !video.paused) video.pause();
         }
       });
+      const activeVideo = gallerySlides[nextIndex].querySelector("video");
+      if (activeVideo) {
+        activeVideo.muted = true;
+        activeVideo.defaultMuted = true;
+        activeVideo.volume = 0;
+        const playback = activeVideo.play();
+        if (playback && typeof playback.catch === "function") playback.catch(() => {});
+      }
       activeGalleryIndex = nextIndex;
       galleryCounter.textContent =
         String(activeGalleryIndex + 1).padStart(2, "0") +
