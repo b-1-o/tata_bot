@@ -181,13 +181,6 @@
     .buy-button:active { transform: translateY(0); }
     .buy-button.secondary { color: #9d813f; border: 1px solid #9d813f; background: rgba(255,255,255,.48); box-shadow: none; }
     .buy-button.secondary:hover { color: white; background: #9d813f; }
-    .payment-note {
-      display: flex; align-items: center; justify-content: center; gap: 7px;
-      margin: 16px 0 0; padding: 0; color: #a18f98; background: transparent;
-      border: 0; font-size: 8px; line-height: 1.6; text-align: center; letter-spacing: .015em;
-    }
-    .payment-note svg { width: 13px; height: 13px; flex: 0 0 auto; color: #9d813f; }
-    .payment-note[hidden] { display: none; }
     .toast {
       position: fixed; z-index: 20; left: 50%; bottom: calc(18px + var(--safe-bottom)); transform: translate(-50%, 12px);
       width: min(calc(100% - 32px), 440px); padding: 13px 15px; color: white; background: #2d5342;
@@ -297,8 +290,6 @@
       color: #80612f; background: #f8f6ee; border-color: #b99b60; box-shadow: none;
     }
     .buy-button.secondary:hover { color: #faf8f1; background: #173a2e; }
-    .payment-note { color: #69746a; }
-    .payment-note svg { color: #98773e; }
     .toast { background: #173a2e; border: 1px solid rgba(185,155,96,.55); }
     .footer {
       color: #e7e1ce; background: #0c2220; border-top: 1px solid rgba(185,155,96,.48);
@@ -663,9 +654,6 @@
       color: #0f2624;
       background: linear-gradient(115deg, #b99b60, #e1cc96);
     }
-
-    .payment-note { color: #aebdb2; }
-    .payment-note svg { color: #d1b67a; }
 
     .toast {
       color: #f4efdf;
@@ -1565,10 +1553,6 @@
         </article>
       </div>
 
-      <p class="payment-note" id="payment-note" role="status">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-        <span data-i18n="paymentNote">Ссылки на оплату Tribute будут подключены перед запуском продаж.</span>
-      </p>
     </section>
 
     <footer class="footer" data-i18n-attr="aria-label:footerLabel">
@@ -1707,8 +1691,6 @@
         currencyUsd: "Доллары США",
         currencyUsdCopy: "Оплата в долларах через Tribute.",
         buyUsd: "Купить за доллары",
-        paymentNote: "Ссылки на оплату Tribute будут подключены перед запуском продаж.",
-        paymentUnavailable: "Ссылка на оплату в {currency} пока не подключена.",
         paymentError: "Не удалось открыть оплату. Попробуйте ещё раз.",
         footerLabel: "Подвал сайта Tata Nails",
         footerTagline: "Онлайн-обучение · Красота в деталях"
@@ -1785,8 +1767,6 @@
         currencyUsd: "US Dollars",
         currencyUsdCopy: "Pay in US dollars through Tribute.",
         buyUsd: "Buy in USD",
-        paymentNote: "Tribute payment links will be added before sales begin.",
-        paymentUnavailable: "The {currency} payment link is not available yet.",
         paymentError: "Could not open the payment page. Please try again.",
         footerLabel: "Tata Nails website footer",
         footerTagline: "Online education · Beauty in every detail"
@@ -1929,8 +1909,9 @@
       button.addEventListener("click", () => selectLanguage(button.dataset.language));
     });
 
-    const PAYMENT_URL_RUB = "https://telegram.me/tribute/app?startapp=ЗАМЕНИ_НА_ССЫЛКУ_RUB";
-    const PAYMENT_URL_USD = "https://telegram.me/tribute/app?startapp=ЗАМЕНИ_НА_ССЫЛКУ_USD";
+    // Paste the exact Telegram payment links from Tribute into these two constants.
+    const PAYMENT_URL_RUB = "";
+    const PAYMENT_URL_USD = "";
 
     const toast = document.getElementById("toast");
     let toastTimer;
@@ -1943,12 +1924,8 @@
 
     function openPayment(currency) {
       const url = currency === "rub" ? PAYMENT_URL_RUB : PAYMENT_URL_USD;
-      const isPlaceholder = url.includes("ЗАМЕНИ_НА_ССЫЛКУ") || url.includes("REPLACE_WITH");
-
-      if (isPlaceholder) {
-        showMessage(copy.paymentUnavailable.replace("{currency}", currency.toUpperCase()));
-        return;
-      }
+      // Keep the button inactive until its real Tribute URL is added.
+      if (!url) return;
 
       try {
         if (telegram && typeof telegram.openLink === "function") {
@@ -1964,11 +1941,6 @@
     document.querySelectorAll("[data-payment]").forEach((button) => {
       button.addEventListener("click", () => openPayment(button.dataset.payment));
     });
-
-    const paymentLinksReady = !PAYMENT_URL_RUB.includes("ЗАМЕНИ_НА_ССЫЛКУ") && !PAYMENT_URL_USD.includes("ЗАМЕНИ_НА_ССЫЛКУ");
-    if (paymentLinksReady) {
-      document.getElementById("payment-note").hidden = true;
-    }
 
     // Lightweight snap carousel: swipe, arrows, dots and a native full-screen viewer.
     const galleryTrack = document.getElementById("gallery-track");
@@ -2092,7 +2064,7 @@
       "#program > .section-label, #program > h2, #program > .program-author, #program .module, " +
       "#gallery > .section-label, #gallery > h2, #gallery > .section-intro, #gallery .gallery-toolbar, " +
       "#gallery .gallery-slide, #gallery .gallery-dots, #gallery .gallery-hint, " +
-      ".quote, .pricing-head, .price-card, .payment-note, .footer"
+      ".quote, .pricing-head, .price-card, .footer"
     );
 
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
