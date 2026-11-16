@@ -4,7 +4,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 const MINI_APP_URL =
   process.env.MINI_APP_URL || "https://tata-course-miniapp.vercel.app/";
-const WELCOME_IMAGE_URL = "https://tata-nails-bot.vercel.app/welcome-card.jpeg?v=193d28e3";
+const WELCOME_IMAGE_URL = "https://tata-nails-bot.vercel.app/welcome-card.jpeg?v=9e11b6a38a38";
 
 function getLanguage(languageCode) {
   return typeof languageCode === "string" &&
