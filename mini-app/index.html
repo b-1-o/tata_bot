@@ -1909,9 +1909,9 @@
       button.addEventListener("click", () => selectLanguage(button.dataset.language));
     });
 
-    // Paste the exact Telegram payment links from Tribute into these two constants.
-    const PAYMENT_URL_RUB = "t.me/tribute/app?startapp=s1cEO";
-    const PAYMENT_URL_USD = "t.me/tribute/app?startapp=s1cER";
+    // Tribute deep links must be handled by Telegram, not opened as external browser URLs.
+    const PAYMENT_URL_RUB = "https://t.me/tribute/app?startapp=s1cEO";
+    const PAYMENT_URL_USD = "https://t.me/tribute/app?startapp=s1cER";
 
     const toast = document.getElementById("toast");
     let toastTimer;
@@ -1924,16 +1924,18 @@
 
     function openPayment(currency) {
       const url = currency === "rub" ? PAYMENT_URL_RUB : PAYMENT_URL_USD;
-      // Keep the button inactive until its real Tribute URL is added.
       if (!url) return;
 
       try {
-        if (telegram && typeof telegram.openLink === "function") {
-          telegram.openLink(url);
+        if (telegram && typeof telegram.openTelegramLink === "function") {
+          // Opens Tribute natively inside Telegram and keeps the Mini App available.
+          telegram.openTelegramLink(url);
         } else {
-          window.open(url, "_blank", "noopener,noreferrer");
+          // Browser preview fallback. The HTTPS t.me link can still be handled by Telegram if installed.
+          window.location.assign(url);
         }
       } catch (error) {
+        console.error("[Tata Nails] Could not open Tribute payment:", error);
         showMessage(copy.paymentError);
       }
     }
