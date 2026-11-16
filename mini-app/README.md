@@ -15,7 +15,7 @@ Open index.html and replace the placeholders near the start of the final script:
 - COURSE_PRICE_RUB — confirmed course price in rubles.
 - COURSE_PRICE_USD — confirmed course price in US dollars.
 
-The payment buttons intentionally show a notice instead of opening placeholder URLs. They call Telegram.WebApp.openLink(url) once a real URL is configured. Outside Telegram, they use a regular browser tab as a local-preview fallback.
+The payment buttons use Telegram.WebApp.openTelegramLink(url) for Tribute `t.me` deep links. This lets Telegram handle the link natively and open the Tribute Mini App instead of routing it through an external browser. Outside Telegram, the buttons navigate to the HTTPS `t.me` URL; the device may hand it off to the Telegram app if installed.
 
 The course outline and marketing copy are starter text. Verify that each module matches the actual lessons before taking payments.
 
