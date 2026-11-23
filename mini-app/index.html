@@ -1281,6 +1281,40 @@
     @media (min-width: 520px) {
       .hero-image-card { width: min(100%, 325px); }
     }
+
+    /* Consent gate: uses the existing Tata Nails payment-card styles. */
+    .offer-consent-panel {
+      width: 100%; max-width: 440px; min-height: 0; margin: 0 auto;
+      gap: 14px; text-align: left;
+    }
+    .offer-consent-panel h2 {
+      margin: 0; font-size: clamp(31px, 7.5vw, 41px);
+    }
+    .offer-document-link {
+      display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+      color: #9d813f; font-size: 11px; font-weight: 700;
+      text-decoration: underline; text-underline-offset: 4px;
+    }
+    .offer-consent-label {
+      display: flex; align-items: flex-start; gap: 11px; padding: 13px 12px;
+      border: 1px solid rgba(157, 129, 63, .45);
+      background: rgba(255,255,255,.48); color: var(--ink);
+      font-size: 11px; line-height: 1.65; cursor: pointer;
+    }
+    .offer-consent-label input {
+      width: 17px; height: 17px; margin: 1px 0 0; flex: 0 0 auto;
+      accent-color: #9d813f;
+    }
+    .offer-continue:disabled {
+      opacity: .48; cursor: not-allowed; filter: saturate(.55); transform: none;
+    }
+    .offer-status {
+      min-height: 1.4em; margin: 0; color: #8b7e85;
+      font-size: 10px; line-height: 1.55;
+    }
+    #offer-consent-panel[hidden], #pricing-head[hidden], #price-grid[hidden] {
+      display: none !important;
+    }
   </style>
   <script src="https://telegram.org/js/telegram-web-app.js?65"></script>
 </head>
@@ -1511,13 +1545,31 @@
     </aside>
 
     <section class="section pricing" id="payment">
-      <div class="pricing-head">
+      <div class="offer-consent-panel price-card featured" id="offer-consent-panel">
+        <div class="section-label" data-i18n="offerLabel">03 / СОГЛАСИЕ С УСЛОВИЯМИ</div>
+        <h2 data-i18n="offerTitle">Перед покупкой ознакомьтесь с условиями.</h2>
+        <p class="section-intro" data-i18n="offerIntro">Откройте публичную оферту и внимательно прочитайте условия приобретения курса Tata Nails.</p>
+        <a class="offer-document-link" id="offer-document-link" href="https://tata-course-miniapp.vercel.app/offer.html" target="_blank" rel="noopener noreferrer">
+          <span data-i18n="offerLink">Открыть публичную оферту</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <label class="offer-consent-label" for="offer-consent-checkbox">
+          <input id="offer-consent-checkbox" type="checkbox">
+          <span data-i18n="offerCheckbox">Я ознакомился(-ась) с публичной офертой и принимаю её условия.</span>
+        </label>
+        <button class="buy-button offer-continue" id="offer-continue" type="button" disabled>
+          <span data-i18n="offerContinue">Принять условия и продолжить</span>
+        </button>
+        <p class="offer-status" id="consent-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="pricing-head" id="pricing-head" hidden>
         <div class="section-label" data-i18n="paymentLabel">03 / ОПЛАТА</div>
         <h2><span data-i18n="paymentTitleLead">Выберите</span> <em data-i18n="paymentTitleAccent">удобную валюту.</em></h2>
         <p class="section-intro" data-i18n="paymentIntro">Два способа оплаты — выберите тот, который подходит вам.</p>
       </div>
 
-      <div class="price-grid">
+      <div class="price-grid" id="price-grid" hidden>
         <article class="price-card featured">
           <div class="currency-heading">
             <span class="currency-symbol" aria-hidden="true">₽</span>
@@ -1692,6 +1744,18 @@
         currencyUsdCopy: "Оплата в долларах через Tribute.",
         buyUsd: "Купить за доллары",
         paymentError: "Не удалось открыть оплату. Попробуйте ещё раз.",
+        offerLabel: "03 / СОГЛАСИЕ С УСЛОВИЯМИ",
+        offerTitle: "Перед покупкой ознакомьтесь с условиями.",
+        offerIntro: "Откройте публичную оферту и внимательно прочитайте условия приобретения курса Tata Nails.",
+        offerLink: "Открыть публичную оферту",
+        offerCheckbox: "Я ознакомился(-ась) с публичной офертой и принимаю её условия.",
+        offerContinue: "Принять условия и продолжить",
+        consentWorking: "Регистрируем согласие…",
+        consentSuccess: "Согласие зарегистрировано. Выберите валюту оплаты.",
+        consentError: "Не удалось зарегистрировать согласие. Проверьте соединение и попробуйте ещё раз.",
+        consentOfferUnavailable: "Публичная оферта ещё не опубликована. Оплата пока недоступна.",
+        consentTelegramOnly: "Для принятия оферты откройте приложение внутри Telegram.",
+        consentPaymentLocked: "Сначала необходимо принять публичную оферту.";
         footerLabel: "Подвал сайта Tata Nails",
         footerTagline: "Онлайн-обучение · Красота в деталях"
       },
@@ -1768,6 +1832,18 @@
         currencyUsdCopy: "Pay in US dollars through Tribute.",
         buyUsd: "Buy in USD",
         paymentError: "Could not open the payment page. Please try again.",
+        offerLabel: "03 / ACCEPT THE TERMS",
+        offerTitle: "Please review the terms before purchasing.",
+        offerIntro: "Open the public offer and read the terms for purchasing the Tata Nails course.",
+        offerLink: "Open the public offer",
+        offerCheckbox: "I have read and agree to the public offer.",
+        offerContinue: "Accept and continue",
+        consentWorking: "Registering your consent…",
+        consentSuccess: "Your consent has been registered. Choose a payment currency.",
+        consentError: "Could not register your consent. Check your connection and try again.",
+        consentOfferUnavailable: "The public offer has not been published yet. Payment is unavailable.",
+        consentTelegramOnly: "Open the app inside Telegram to accept the offer.",
+        consentPaymentLocked: "You must accept the public offer first.";
         footerLabel: "Tata Nails website footer",
         footerTagline: "Online education · Beauty in every detail"
       }
@@ -1909,12 +1985,24 @@
       button.addEventListener("click", () => selectLanguage(button.dataset.language));
     });
 
-    // Tribute deep links must be handled by Telegram, not opened as external browser URLs.
+    // Consent must be registered by the server before payment choices become visible.
     const PAYMENT_URL_RUB = "https://t.me/tribute/app?startapp=s1cEO";
     const PAYMENT_URL_USD = "https://t.me/tribute/app?startapp=s1cER";
+    const CONSENT_API_URL = "https://tata-nails-bot.vercel.app/api/consent";
+    const OFFER_URL = "https://tata-course-miniapp.vercel.app/offer.html";
 
     const toast = document.getElementById("toast");
+    const offerPanel = document.getElementById("offer-consent-panel");
+    const consentCheckbox = document.getElementById("offer-consent-checkbox");
+    const consentButton = document.getElementById("offer-continue");
+    const consentStatus = document.getElementById("consent-status");
+    const pricingHead = document.getElementById("pricing-head");
+    const priceGrid = document.getElementById("price-grid");
     let toastTimer;
+    let paymentUnlocked = false;
+    let consentSending = false;
+    let consentRequestId = null;
+
     function showMessage(message) {
       toast.textContent = message;
       toast.classList.add("visible");
@@ -1922,7 +2010,88 @@
       toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 3600);
     }
 
+    const offerLink = document.getElementById("offer-document-link");
+    offerLink.href = OFFER_URL;
+    offerLink.addEventListener("click", (event) => {
+      if (telegram && typeof telegram.openLink === "function") {
+        event.preventDefault();
+        telegram.openLink(OFFER_URL);
+      }
+    });
+
+    consentCheckbox.addEventListener("change", () => {
+      consentButton.disabled = !consentCheckbox.checked || consentSending;
+    });
+
+    async function registerConsent() {
+      if (consentSending || paymentUnlocked) return;
+      if (!consentCheckbox.checked) {
+        showMessage(copy.consentPaymentLocked);
+        return;
+      }
+      if (!telegram || typeof telegram.initData !== "string" || !telegram.initData) {
+        showMessage(copy.consentTelegramOnly);
+        return;
+      }
+
+      consentSending = true;
+      consentButton.disabled = true;
+      consentButton.querySelector("span").textContent = copy.consentWorking;
+      consentStatus.textContent = copy.consentWorking;
+      if (!consentRequestId) {
+        consentRequestId = window.crypto && typeof window.crypto.randomUUID === "function"
+          ? window.crypto.randomUUID()
+          : "consent-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+      }
+
+      try {
+        const response = await fetch(CONSENT_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            initData: telegram.initData,
+            accepted: true,
+            requestId: consentRequestId,
+            language: currentLanguage
+          })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.ok !== true) {
+          if (result.code === "offer_not_configured") {
+            throw new Error("offer_not_configured");
+          }
+          throw new Error(result.code || "consent_failed");
+        }
+
+        paymentUnlocked = true;
+        offerPanel.hidden = true;
+        pricingHead.hidden = false;
+        priceGrid.hidden = false;
+        consentStatus.textContent = copy.consentSuccess;
+        showMessage(copy.consentSuccess);
+        pricingHead.scrollIntoView({ behavior: "smooth", block: "start" });
+      } catch (error) {
+        console.error("[Tata Nails] Consent registration failed:", error);
+        const message = error.message === "offer_not_configured"
+          ? copy.consentOfferUnavailable
+          : copy.consentError;
+        consentStatus.textContent = message;
+        showMessage(message);
+      } finally {
+        consentSending = false;
+        consentButton.querySelector("span").textContent = copy.offerContinue;
+        consentButton.disabled = !consentCheckbox.checked || paymentUnlocked;
+      }
+    }
+
+    consentButton.addEventListener("click", registerConsent);
+
     function openPayment(currency) {
+      if (!paymentUnlocked) {
+        showMessage(copy.consentPaymentLocked);
+        return;
+      }
+
       const url = currency === "rub" ? PAYMENT_URL_RUB : PAYMENT_URL_USD;
       if (!url) return;
 
@@ -1931,7 +2100,7 @@
           // Opens Tribute natively inside Telegram and keeps the Mini App available.
           telegram.openTelegramLink(url);
         } else {
-          // Browser preview fallback. The HTTPS t.me link can still be handled by Telegram if installed.
+          // Browser preview fallback. The consent endpoint only accepts Telegram initData.
           window.location.assign(url);
         }
       } catch (error) {
