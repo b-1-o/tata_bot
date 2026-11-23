@@ -157,11 +157,11 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ ok: false, code: "method_not_allowed" });
   }
 
-  if (!BOT_TOKEN || !/^\d{5,20}$/.test(OWNER_TELEGRAM_ID)) {
-    return res.status(503).json({ ok: false, code: "service_not_configured" });
-  }
   if (!isValidOfferConfiguration()) {
     return res.status(503).json({ ok: false, code: "offer_not_configured" });
+  }
+  if (!BOT_TOKEN || !/^\d{5,20}$/.test(OWNER_TELEGRAM_ID)) {
+    return res.status(503).json({ ok: false, code: "service_not_configured" });
   }
 
   const body = req.body && typeof req.body === "object" ? req.body : {};
