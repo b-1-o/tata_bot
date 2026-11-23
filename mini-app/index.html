@@ -1988,7 +1988,10 @@
     // Consent must be registered by the server before payment choices become visible.
     const PAYMENT_URL_RUB = "https://t.me/tribute/app?startapp=s1cEO";
     const PAYMENT_URL_USD = "https://t.me/tribute/app?startapp=s1cER";
-    const CONSENT_API_URL = "https://tata-nails-bot.vercel.app/api/consent";
+    const CONSENT_API_BASE = window.location.hostname === "tata-course-miniapp.vercel.app"
+      ? "https://tata-nails-bot.vercel.app"
+      : "https://tata-nails-bot-git-feature-239f5e-erikghabuzyan6-maxs-projects.vercel.app";
+    const CONSENT_API_URL = new URL("/api/consent", CONSENT_API_BASE).toString();
     const OFFER_URL = new URL("/offer.html", window.location.origin).toString();
 
     const toast = document.getElementById("toast");
