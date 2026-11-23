@@ -71,7 +71,7 @@ function validateTelegramInitData(initData) {
 
   const dataCheckString = Array.from(params.entries())
     .filter(([key]) => key !== "hash")
-    .sort(([left], [right]) => left.localeCompare(right))
+    .sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0)
     .map(([key, value]) => key + "=" + value)
     .join("\n");
 
