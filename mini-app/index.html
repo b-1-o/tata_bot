@@ -1989,7 +1989,7 @@
     const PAYMENT_URL_RUB = "https://t.me/tribute/app?startapp=s1cEO";
     const PAYMENT_URL_USD = "https://t.me/tribute/app?startapp=s1cER";
     const CONSENT_API_URL = "https://tata-nails-bot.vercel.app/api/consent";
-    const OFFER_URL = "https://tata-course-miniapp.vercel.app/offer.html";
+    const OFFER_URL = new URL("/offer.html", window.location.origin).toString();
 
     const toast = document.getElementById("toast");
     const offerPanel = document.getElementById("offer-consent-panel");
